@@ -4,6 +4,7 @@ import { INTRO_KEY } from '../../guards/intro.guard';
 import { Router } from '@angular/router';
 
 import { Storage } from '@capacitor/storage';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-intro',

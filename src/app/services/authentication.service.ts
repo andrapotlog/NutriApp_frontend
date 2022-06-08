@@ -15,7 +15,9 @@ export class AuthenticationService {
   );
   token = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadToken();
+  }
 
   async loadToken() {
     const token = await Storage.get({ key: TOKEN_KEY });

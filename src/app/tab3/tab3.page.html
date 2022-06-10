@@ -1,9 +1,40 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Tab 3 </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Profil</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
-  <ion-button expand="full" (click)="logout()">Logout</ion-button>
+  <div class="userProfile-content">
+    <div class="overlay">
+      <ion-avatar>
+        <img src="../../assets/standard_profile.png" />
+      </ion-avatar>
+    </div>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Profil personal</ion-card-subtitle>
+      <ion-card-title>{{user.first_name}} {{user.last_name}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item>
+          <div>
+            <div class="userProfile-userDetails">
+              <p>BMR - Rata Metabolica Bazala</p>
+              <p>{{user.bmr}} kcal</p>
+            </div>
+            <div class="userProfile-userDetails">
+              <p>TDEE - Necesar caloric mentinere</p>
+              <p>{{user.calories}} kcal</p>
+            </div>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-button (click)="logout()">Logout</ion-button>
 </ion-content>

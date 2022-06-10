@@ -1,25 +1,87 @@
-<ion-header [translucent]="false">
-  <ion-toolbar>
-    <ion-title> Tab 1 </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Jurnal</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
+      <ion-card-title>Total</ion-card-title>
+    </ion-card-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <ion-card-content>
+      {{totalCaloriesPerDay()}}
+    </ion-card-content>
+  </ion-card>
 
-  <ion-item>
-    <ion-label position="stacked">Username</ion-label>
-    <ion-input></ion-input>
-  </ion-item>
+  <ion-card>
+    <ion-card-header>
+      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
+      <ion-card-title>Mic Dejun</ion-card-title>
+    </ion-card-header>
 
-  <ion-item>
-    <ion-label position="stacked">Password</ion-label>
-    <ion-input type="password"></ion-input>
-  </ion-item>
+    <ion-card-content>
+      <div *ngIf="emptyDB(breakfastDB)">Niciun aliment consumat</div>
+      <ion-list>
+        <ion-item *ngFor="let item of breakfastDB">
+          <ion-label>{{item.name}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-button>Adauga alimente</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
+      <ion-card-title>Pranz</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div *ngIf="emptyDB(lunchDB)">Niciun aliment consumat</div>
+
+      <ion-button>Adauga alimente</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
+      <ion-card-title>Cina</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div *ngIf="emptyDB(dinnerDB)">Niciun aliment consumat</div>
+
+      <ion-button>Adauga alimente</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
+      <ion-card-title>Gustare</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div *ngIf="emptyDB(snacksDB)">Niciun aliment consumat</div>
+
+      <ion-button>Adauga alimente</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
+      <ion-card-title>Exercitii</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div>Niciun exercitiu adaugat</div>
+
+      <ion-button>Adauga exercitii</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -1,0 +1,39 @@
+ion-content {
+}
+
+ion-header {
+  position: relative;
+}
+
+ion-title {
+  font-size: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Sans', Arial, sans-serif;
+  font-style: normal;
+  font-weight: lighter;
+}
+ion-toolbar {
+  --ion-background-color: #40E0D0;
+  -moz-opacity: 0;
+}
+
+.userProfile-content {
+  width: 100%;
+  height:200px;
+  display: block;
+  background-color: #40E0D0;
+}
+
+ion-avatar {
+  height: 100px;
+  width: 100px;
+  margin: auto;
+  border: 1px solid black;
+}
+
+.overlay {
+  position: relative;
+  text-align: center;
+  top: 58%;
+}
+
+

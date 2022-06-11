@@ -16,6 +16,13 @@ export interface UserModel {
   diet_calories?: number;
 }
 
+export interface CaloriesDivision {
+  breakfast: number;
+  lunch: number;
+  dinner: number;
+  snacks: number;
+}
+
 export enum Diet {
   extreme_lose_weight,
   lose_weight,

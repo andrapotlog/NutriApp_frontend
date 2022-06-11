@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Diet, Gender, PhysicalActivity, UserModel } from './user.module';
+import { Diet, Gender, PhysicalActivity, UserModel } from './user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +63,19 @@ export class UsersService {
         ? 1.725 * this.calculate_bmr(user)
         : 1.9 * this.calculate_bmr(user)
     );
+  }
+
+  calculate_diet_calories(user: UserModel) {
+    user.diet_calories =
+      user.desired_diet === Diet.extreme_lose_weight
+        ? user.calories - 500
+        : user.desired_diet === Diet.lose_weight
+        ? user.calories - 300
+        : user.desired_diet === Diet.gain_weight
+        ? user.calories + 500
+        : user.calories;
+    if (user.diet_calories < 1200) {
+      user.diet_calories = 1200;
+    }
   }
 }

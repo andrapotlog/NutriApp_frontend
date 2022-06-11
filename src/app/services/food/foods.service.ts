@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FoodsModel } from './foods.model';
+import { UtilsModel } from '../utils/utils.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,5 +43,17 @@ export class FoodsService {
 
   getFoods() {
     return this.foods.slice();
+  }
+
+  getFoodByID(id: number): FoodsModel {
+    let entry = {} as FoodsModel;
+
+    this.foods.forEach((item) => {
+      if (item.id_food === id) {
+        entry = item;
+      }
+    });
+
+    return entry;
   }
 }

@@ -8,3 +8,15 @@ export interface FoodsModel {
   carbs: number;
   fats: number;
 }
+
+export interface MealDB {
+  id_food: number;
+  portion: number;
+}
+
+export interface MealReport {
+  total: number;
+  proteins: number;
+  fats: number;
+  carbs: number;
+}

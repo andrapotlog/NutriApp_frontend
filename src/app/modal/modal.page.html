@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>modal</ion-title>
+    <ion-buttons slot="end">
+    <ion-button (click)="closeModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+Opened for {{openedFrom}}
+  
+  <ion-searchbar showCancelButton="focus" autocorrect="on" inputmode="search"></ion-searchbar>
+  <ion-item button (click)="closeModal()">inchide</ion-item>
+</ion-content>

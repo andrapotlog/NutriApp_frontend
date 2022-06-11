@@ -4,6 +4,8 @@ import { UserModel } from '../services/user/user.model';
 import { FoodsService } from '../services/food/foods.service';
 import { FoodsModel, MealDB, MealReport } from '../services/food/foods.model';
 import { UtilsService } from '../services/utils/utils.service';
+import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { ModalPage } from '../modal/modal.page';
 
 @Component({
   selector: 'app-tab1',
@@ -26,7 +28,9 @@ export class Tab1Page implements OnInit {
   constructor(
     private userService: UsersService,
     private foodServ: FoodsService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private modalContr: ModalController,
+    private routerOutler: IonRouterOutlet
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +42,18 @@ export class Tab1Page implements OnInit {
     //this.breakfastDB = this.foods.slice();
     const todayEntry = this.utilsService.getEntryOfDay(this.nowDate);
     this.breakfastDB = todayEntry.breakfastDB;
+  }
+
+  async openModal(data: string) {
+    const modal = await this.modalContr.create({
+      component: ModalPage,
+      canDismiss: true,
+      presentingElement: this.routerOutler.nativeEl,
+      componentProps: {
+        openedFrom: data,
+      },
+    });
+    return await modal.present();
   }
 
   emptyDB(db: MealDB[]) {
@@ -93,4 +109,22 @@ export class Tab1Page implements OnInit {
       ),
     };
   }
+
+  /*let currentModal = null;
+  async function openModal(opts = {}) {
+    const modal = await modalController.create({
+      component: 'modal-content',
+      ...opts,
+    });
+    modal.present();
+
+    currentModal = modal;
+  }
+
+  openCardModal() {
+    openModal({
+      swipeToClose: true,
+      presentingElement: pageEl,
+    });
+  }*/
 }

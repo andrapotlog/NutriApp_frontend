@@ -34,7 +34,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-button>Adauga alimente</ion-button>
+      <ion-button (click)="openModal('breakfast')">Adauga alimente</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -47,7 +47,7 @@
     <ion-card-content>
       <div *ngIf="emptyDB(lunchDB)">Niciun aliment consumat</div>
 
-      <ion-button>Adauga alimente</ion-button>
+      <ion-button (click)="openModal('lunch')">Adauga alimente</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -60,7 +60,7 @@
     <ion-card-content>
       <div *ngIf="emptyDB(dinnerDB)">Niciun aliment consumat</div>
 
-      <ion-button>Adauga alimente</ion-button>
+      <ion-button (click)="openModal('dinner')">Adauga alimente</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -73,7 +73,7 @@
     <ion-card-content>
       <div *ngIf="emptyDB(snacksDB)">Niciun aliment consumat</div>
 
-      <ion-button>Adauga alimente</ion-button>
+      <ion-button (click)="openModal('snacks')">Adauga alimente</ion-button>
     </ion-card-content>
   </ion-card>
 

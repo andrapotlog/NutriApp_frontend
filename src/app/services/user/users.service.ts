@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Diet, Gender, PhysicalActivity, UserModel } from './user.model';
+import {
+  CaloriesDivision,
+  Diet,
+  Gender,
+  PhysicalActivity,
+  UserModel,
+} from './user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +24,12 @@ export class UsersService {
     desired_weight: 65,
     desired_diet: Diet.lose_weight,
     physical_activity: PhysicalActivity.little_to_none,
+    meal_administration: {
+      breakfast: 400,
+      lunch: 400,
+      dinner: 400,
+      snacks: 305,
+    },
   };
 
   constructor() {}
@@ -77,5 +89,9 @@ export class UsersService {
     if (user.diet_calories < 1200) {
       user.diet_calories = 1200;
     }
+  }
+
+  updateMealAdministration(div: CaloriesDivision) {
+    this.user.meal_administration = { ...div };
   }
 }

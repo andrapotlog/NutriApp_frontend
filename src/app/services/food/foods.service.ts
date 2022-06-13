@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
 import { FoodsModel } from './foods.model';
-import { UtilsModel } from '../utils/utils.model';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FoodsService {
+  private url: string;
+  readonly app_id: string = 'd38ccad8';
+  readonly app_key: string = 'ae34e187515b1b7f05dd099c53c003b0';
+
+  results: any[] = [];
+
+  private urlRecipe: string;
+  readonly app_idRecipe: string = '2ae5a608';
+  readonly app_keyRecipe: string = '85e321f09145712349620af49bf0fb22';
+
   private foods: FoodsModel[] = [
     {
       id_food: 1,
@@ -39,7 +51,7 @@ export class FoodsService {
     },
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getFoods() {
     return this.foods.slice();
@@ -55,5 +67,48 @@ export class FoodsService {
     });
 
     return entry;
+  }
+
+  getFoodDatabaseAPI(userSearch: string) {
+    this.url =
+      'https://api.edamam.com/api/food-database/v2/parser?' +
+      '&app_id=' +
+      this.app_id +
+      '&app_key=' +
+      this.app_key +
+      '&ingr=' +
+      userSearch;
+
+    return this.http.get<any>(this.url).pipe(
+      catchError((err) => {
+        console.log('Connection Error: 401');
+        console.log('Error caught in service');
+        console.error(err);
+
+        return throwError(err); //Rethrow it back to component
+      })
+    );
+  }
+
+  getRecipeAPI(userSearch: string, meal: string) {
+    this.urlRecipe =
+      'https://api.edamam.com/api/recipes/v2?type=public' +
+      '&q=' +
+      userSearch +
+      '&app_id=' +
+      this.app_idRecipe +
+      '&app_key=' +
+      this.app_keyRecipe +
+      '&mealType=' +
+      meal;
+
+    return this.http.get<any>(this.urlRecipe).pipe(
+      catchError((err) => {
+        console.log('Error caught in service');
+        console.error(err);
+
+        return throwError(err); //Rethrow it back to component
+      })
+    );
   }
 }

@@ -6,6 +6,7 @@ import { FoodsModel, MealDB, MealReport } from '../services/food/foods.model';
 import { UtilsService } from '../services/utils/utils.service';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tab1',
@@ -25,12 +26,15 @@ export class Tab1Page implements OnInit {
 
   private grams = 200;
 
+  data: any[] = [];
+
   constructor(
     private userService: UsersService,
     private foodServ: FoodsService,
     private utilsService: UtilsService,
     private modalContr: ModalController,
-    private routerOutler: IonRouterOutlet
+    private routerOutler: IonRouterOutlet,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {

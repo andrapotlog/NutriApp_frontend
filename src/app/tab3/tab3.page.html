@@ -24,19 +24,19 @@
         <ion-item>
           <div>
             <div class="userProfile-userDetails">
-              <p>BMR - Rata Metabolica Bazala</p>
-              <p>{{user.bmr}} kcal</p>
+              <p><b>BMR</b> - Rata Metabolica Bazala</p>
+              <p class="userProfile-userDetails-title">{{user.bmr}} kcal</p>
             </div>
-            <div class="userProfile-userDetails">
-              <p>TDEE - Necesar caloric mentinere</p>
-              <p>{{user.calories}} kcal</p>
+            <div>
+              <p><b>TDEE</b> - Necesar caloric mentinere</p>
+              <p class="userProfile-userDetails-title">{{user.calories}} kcal</p>
             </div>
           </div>
         </ion-item>
       </ion-list>
     </ion-card-content>
 
-    <ion-card-content>
+    <ion-card-content class="userProfile-optionButtons">
       <ion-list lines="none">
         <ion-item button href="tabs/tab3/objectives">Obiectivele mele</ion-item>
         <ion-item button href="tabs/tab3/meals-administration">Administrare mese</ion-item>

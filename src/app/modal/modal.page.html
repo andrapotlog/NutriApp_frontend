@@ -1,15 +1,44 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>modal</ion-title>
+    <ion-title *ngIf="openedFrom==='breakfast'">Mic Dejun</ion-title>
+    <ion-title *ngIf="openedFrom==='lunch'">Pranz</ion-title>
+    <ion-title *ngIf="openedFrom==='dinner'">Cina</ion-title>
+    <ion-title *ngIf="openedFrom==='snacks'">Gustare</ion-title>
     <ion-buttons slot="end">
-    <ion-button (click)="closeModal()">Close</ion-button>
+      <ion-button (click)="closeModal()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-Opened for {{openedFrom}}
-  
-  <ion-searchbar showCancelButton="focus" autocorrect="on" inputmode="search"></ion-searchbar>
-  <ion-item button (click)="closeModal()">inchide</ion-item>
+  <ion-searchbar
+    [(ngModel)]="searchField"
+    showCancelButton="focus"
+    autocorrect="on"
+    inputmode="search"
+    animated="true"
+    (keyup.enter)="handleLogin()"
+  ></ion-searchbar>
+<!--  <ion-item><ion-input type="text" [(ngModel)]="searchField" (keyup.enter)="handleLogin()"></ion-input></ion-item>-->
+  <ion-list>
+    <!--<ion-item button *ngFor="let food of data">
+      <p>{{food.food.label}}</p>
+      <p>-->
+      <ion-accordion-group *ngFor="let food of data">
+        <ion-accordion value="colors">
+          <ion-item slot="header">
+            <ion-label>{{food.food.label}}</ion-label>
+          </ion-item>
+
+          <ion-list slot="content" class="dataExpanded">
+            <ion-item>
+              <p>Calorii per serving: {{food.food.nutrients.ENERC_KCAL}}</p>
+            </ion-item>
+            <ion-item button>add</ion-item>
+          </ion-list>
+        </ion-accordion>
+      </ion-accordion-group>
+  <!--    </p>
+    </ion-item>-->
+  </ion-list>
 </ion-content>

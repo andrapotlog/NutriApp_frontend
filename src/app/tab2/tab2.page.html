@@ -1,17 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Recomandari</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-item>
+    <ion-label>See recommendations for:</ion-label>
+    <ion-select [(ngModel)]="mealSelected" (ionChange)="optionsFn()" placeholder="Select One">
+      <ion-select-option value="breakfast">breakfast</ion-select-option>
+      <ion-select-option value="lunch">lunch</ion-select-option>
+      <ion-select-option value="dinner">dinner</ion-select-option>
+      <ion-select-option value="snacks">snacks</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+  <ion-accordion-group *ngFor="let recipe of recommendations">
+    <ion-accordion value="colors">
+      <ion-item slot="header">
+        <ion-img class="recommendations-photo" src="{{recipe.recipe.image}}"></ion-img>
+        <ion-label>{{recipe.recipe.label}}</ion-label>
+      </ion-item>
+
+      <ion-list slot="content" class="dataExpanded">
+        <ion-item>
+          <p>Calorii per serving:</p>
+        </ion-item>
+        <ion-item button>add</ion-item>
+      </ion-list>
+    </ion-accordion>
+  </ion-accordion-group>
+  </ion-list>
+
 </ion-content>

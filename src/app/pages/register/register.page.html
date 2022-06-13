@@ -1,0 +1,78 @@
+<ion-content>
+  <ion-card class="login-header"><ion-img src="../../assets/design/header.png"></ion-img>
+    <ion-card-header class="login-headerTitle">
+      <ion-card-title>Register</ion-card-title>
+    </ion-card-header></ion-card>
+
+  <div class="login-content">
+    <form (ngSubmit)="register()" [formGroup]="credentials">
+      <div class="input-group">
+        <div class="register-nameInput">
+        <ion-item>
+          <ion-input
+            type="first_name"
+            placeholder="First Name"
+            formControlName="first_name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            type="last_name"
+            placeholder="Last Name"
+            formControlName="last_name"
+          ></ion-input>
+        </ion-item>
+        </div>
+        <ion-item>
+          <ion-input
+            type="email"
+            placeholder="Email"
+            formControlName="email"
+          ></ion-input>
+        </ion-item>
+        <div
+          class="errors"
+          *ngIf="(credentials.get('email').dirty || credentials.get('email').touched) && credentials.get('email').errors"
+        >
+        <span *ngIf="credentials.get('email').hasError('required')"
+        >Email is required</span
+        >
+          <span *ngIf="credentials.get('email').hasError('email')"
+          >Email is invalid</span
+          >
+        </div>
+
+        <ion-item>
+          <ion-input
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          ></ion-input>
+        </ion-item>
+        <div
+          class="errors"
+          *ngIf="(credentials.get('password').dirty || credentials.get('password').touched) && credentials.get('password').errors"
+        >
+        <span *ngIf="credentials.get('password').hasError('required')"
+        >Password is required</span
+        >
+          <span *ngIf="credentials.get('password').hasError('minlength')"
+          >Password needs to be {{minLength}} characters</span
+          >
+        </div>
+      </div>
+
+      <ion-button class="login-buttons" fill="solid" type="submit" expand="block" [disabled]="credentials.invalid"
+      >Register</ion-button
+      >
+      <ion-button type="button" expand="block" color="dark" fill="clear" (click)="redirectToLogin()"
+      >Already have an account? Go to log in!</ion-button
+      >
+
+      <ion-button class="login-buttons" type="button" expand="block">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        Register with Google
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

@@ -1,27 +1,3 @@
-4;
-5;
-6;
-7;
-8;
-9;
-10;
-11;
-12;
-13;
-14;
-15;
-16;
-17;
-18;
-19;
-20;
-21;
-22;
-23;
-24;
-25;
-26;
-27;
 import { AuthenticationService } from './../services/authentication.service';
 import { Injectable } from '@angular/core';
 import { CanLoad, Router } from '@angular/router';
@@ -42,12 +18,14 @@ export class AuthGuard implements CanLoad {
       filter((val) => val !== null), // Filter out initial Behaviour subject value
       take(1), // Otherwise the Observable doesn't complete!
       map((isAuthenticated) => {
+        console.log(isAuthenticated);
         if (isAuthenticated) {
           return true;
         } else {
           this.router.navigateByUrl('/login');
           return false;
         }
+        return true;
       })
     );
   }

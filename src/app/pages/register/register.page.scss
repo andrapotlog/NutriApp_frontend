@@ -8,9 +8,13 @@
 }
 
 ion-content {
-   --ion-background-color: #f1e9e4;
+  --ion-background-color: #f1e9e4;
   padding: 0 10%;
- }
+}
+
+.register-nameInput {
+  display: flex;
+}
 
 .login-buttons {
   --background: #5A5387;
@@ -23,7 +27,7 @@ ion-content {
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 15px;
-  margin-left: 5%;
+  margin-left: 2%;
   margin-right: 5%;
 }
 

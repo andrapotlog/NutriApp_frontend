@@ -6,7 +6,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-item>
+  <ion-item class="recommendations-select">
     <ion-label>See recommendations for:</ion-label>
     <ion-select [(ngModel)]="mealSelected" (ionChange)="optionsFn()" placeholder="Select One">
       <ion-select-option value="breakfast">breakfast</ion-select-option>
@@ -24,10 +24,17 @@
         <ion-label>{{recipe.recipe.label}}</ion-label>
       </ion-item>
 
-      <ion-list slot="content" class="dataExpanded">
-        <ion-item>
-          <p>Calorii per serving:</p>
-        </ion-item>
+      <ion-list slot="content">
+<!--        <ion-item>-->
+        <div class="recommendations-details">
+          <p>NUTRITION FACTS (PER SERVING)</p>
+          <p>Calories:  {{recipe.recipe.totalNutrients.ENERC_KCAL.quantity}} {{recipe.recipe.totalNutrients.ENERC_KCAL.unit}}</p>
+          <p>Proteins: {{recipe.recipe.totalNutrients.PROCNT.quantity}} {{recipe.recipe.totalNutrients.PROCNT.unit}}</p>
+          <p>Carbs: {{recipe.recipe.totalNutrients.CHOCDF.quantity}} {{recipe.recipe.totalNutrients.CHOCDF.unit}}</p>
+          <p>Fats: {{recipe.recipe.totalNutrients.FAT.quantity}} {{recipe.recipe.totalNutrients.FAT.unit}}</p>
+          <p><a target="_blank" rel="noopener noreferrer" href={{recipe.recipe.url}}>Go to recipe</a></p>
+        </div>
+        <!--        </ion-item>-->
         <ion-item button>add</ion-item>
       </ion-list>
     </ion-accordion>

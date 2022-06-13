@@ -1,25 +1,15 @@
 <ion-content>
-  <ion-slides pager="true">
+  <ion-card class="intro-header"><ion-img src="../../assets/design/headerBig.png"></ion-img>
+    <ion-card-header class="intro-headerTitle">
+      <ion-card-title>Welcome</ion-card-title>
+    </ion-card-header>
 
-    <!-- Slide 1 -->
-    <ion-slide>
-      <ion-text color="light">
-        <img src="https://i1.wp.com/ionicacademy.com/wp-content/uploads/2019/10/async-code-course.png">
-        <h1>Hey there!</h1>
-        <p>This is an epic app because...</p>
-        <ion-button (click)="next()" fill="outline" color="light">Next</ion-button>
-      </ion-text>
-    </ion-slide>
+    <ion-card-content>
+      <div class="intro-buttons">
+        <ion-button class="intro-buttons-login" fill="solid" expand="block" (click)="login()">Log in</ion-button>
+        <ion-button class="intro-buttons-register" fill="outline" color="dark" (click)="register()">Register</ion-button>
+      </div>
+    </ion-card-content>
 
-    <!-- Slide 2 -->
-    <ion-slide>
-      <ion-text color="light">
-        <img src="https://i1.wp.com/ionicacademy.com/wp-content/uploads/2020/06/ionic-everywhere-course.png">
-        <h1>It's Ionic!</h1>
-        <p>... it shows all the basics you need!</p>
-        <ion-button (click)="start()" fill="outline" color="light">Start</ion-button>
-      </ion-text>
-    </ion-slide>
-
-  </ion-slides>
+  </ion-card>
 </ion-content>

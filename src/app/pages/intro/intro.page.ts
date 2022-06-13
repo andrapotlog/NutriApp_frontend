@@ -18,12 +18,13 @@ export class IntroPage implements OnInit {
 
   ngOnInit() {}
 
-  next() {
-    this.slides.slideNext();
-  }
-
-  async start() {
+  async login() {
     await Storage.set({ key: INTRO_KEY, value: 'true' });
     this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
+  async register() {
+    await Storage.set({ key: INTRO_KEY, value: 'true' });
+    this.router.navigateByUrl('/register', { replaceUrl: true });
   }
 }

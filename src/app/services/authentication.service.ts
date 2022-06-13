@@ -4,6 +4,15 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs/operators';
 
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  user,
+} from '@angular/fire/auth';
+import { AlertController } from '@ionic/angular';
+
 const TOKEN_KEY = 'my-token';
 
 @Injectable({
@@ -15,7 +24,11 @@ export class AuthenticationService {
   );
   token = '';
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private auth: Auth,
+    private alertController: AlertController
+  ) {
     this.loadToken();
   }
 
@@ -24,26 +37,50 @@ export class AuthenticationService {
     if (token && token.value) {
       console.log('set token: ', token.value);
       this.token = token.value;
-      this.isAuthenticated.next(true);
-    } else {
-      this.isAuthenticated.next(false);
     }
   }
 
-  login(credentials: { email; pass }): Observable<any> {
-    return this.http.post(`https://reqres.in/api/login`, credentials).pipe(
-      map((data: any) => data.token),
-      switchMap((token) => {
-        return from(Storage.set({ key: TOKEN_KEY, value: token }));
-      }),
-      tap((_) => {
-        this.isAuthenticated.next(true);
-      })
-    );
+  async register(credentials: { email; password }) {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        this.auth,
+        credentials.email,
+        credentials.password
+      );
+      this.isAuthenticated.next(true);
+      return user;
+    } catch (e) {
+      this.isAuthenticated.next(false);
+      return null;
+    }
   }
 
-  logout(): Promise<void> {
-    this.isAuthenticated.next(false);
-    return Storage.remove({ key: TOKEN_KEY });
+  async login(credentials: { email; password }) {
+    console.log(credentials);
+    try {
+      const user = await signInWithEmailAndPassword(
+        this.auth,
+        credentials.email,
+        credentials.password
+      );
+      this.isAuthenticated.next(true);
+      return user;
+    } catch (e) {
+      this.isAuthenticated.next(false);
+      return null;
+    }
+  }
+
+  logout() {
+    return signOut(this.auth);
+  }
+
+  async showAlert(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }

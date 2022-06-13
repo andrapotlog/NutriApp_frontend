@@ -10,29 +10,31 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
   minLength = 6;
 
   credentials: FormGroup = new FormGroup({
+    first_name: new FormControl('', [Validators.required]),
+    last_name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    //birthdate
+    //gender
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(this.minLength),
     ]),
   });
 
-  //credentials: FormGroup;
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,
+    private loadingController: LoadingController,
     private alertController: AlertController,
-    private router: Router,
-    private loadingController: LoadingController
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -45,22 +47,21 @@ export class LoginPage implements OnInit {
     return this.credentials.get('password').value;
   }
 
-  redirectToRegister() {
-    this.router.navigateByUrl('/register', { replaceUrl: true });
+  redirectToLogin() {
+    this.router.navigateByUrl('/login', { replaceUrl: true });
   }
 
-  async login() {
+  async register() {
     const loading = await this.loadingController.create();
     await loading.present();
 
-    const user = await this.authService.login(this.credentials.value);
+    const user = await this.authService.register(this.credentials.value);
     await loading.dismiss();
-    console.log(this.authService.isAuthenticated);
 
     if (user) {
       this.router.navigateByUrl('/tabs', { replaceUrl: true });
     } else {
-      await this.authService.showAlert('Login failed', 'Please try again!');
+      this.authService.showAlert('Registration failed', 'Please try again!');
     }
   }
 }

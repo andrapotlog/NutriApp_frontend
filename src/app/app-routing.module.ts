@@ -9,7 +9,15 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginPageModule),
-    canLoad: [IntroGuard, AutoLoginGuard],
+    canLoad: [IntroGuard],
+  },
+  {
+    path: 'register',
+    loadChildren: () =>
+      import('./pages/register/register.module').then(
+        (m) => m.RegisterPageModule
+      ),
+    canLoad: [IntroGuard],
   },
   {
     path: 'intro',

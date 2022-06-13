@@ -1,7 +1,15 @@
 .recommendations {
+  &-select {
+    padding-bottom: 10px;
+  }
+
   &-photo {
     height: 100px;
     width: 100px;
     padding-right: 10px;
+  }
+
+  &-details {
+    padding: 0 25px;
   }
 }

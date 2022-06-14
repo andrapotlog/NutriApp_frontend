@@ -1,0 +1,40 @@
+<ion-content>
+  <ion-card class="create-profile-header"><ion-img src="../../assets/design/header.png"></ion-img>
+    <ion-card-header class="create-profile-headerTitle">
+      <ion-card-title>Create your profile</ion-card-title>
+    </ion-card-header></ion-card>
+
+  <div class="create-profile-content">
+    <form (ngSubmit)="register()" [formGroup]="credentials">
+      <div class="input-group">
+        <div class="create-profile-heightWeight">
+          <ion-item>
+            <ion-input
+              type="number"
+              placeholder="Height (cm)"
+              formControlName="height"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              type="number"
+              placeholder="Weight (kg)"
+              formControlName="weight"
+            ></ion-input>
+          </ion-item>
+        </div>
+        <ion-item>
+          <ion-input
+            type="email"
+            placeholder="Email"
+            formControlName="diet"
+          ></ion-input>
+        </ion-item>
+
+      <ion-button class="create-profile-buttons" fill="solid" type="submit" expand="block" [disabled]="credentials.invalid"
+      >Register</ion-button
+      >
+      </div>
+    </form>
+  </div>
+</ion-content>

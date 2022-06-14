@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import {
+  getAuth,
+  setPersistence,
+  browserSessionPersistence,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import {
@@ -41,6 +47,21 @@ export class AuthenticationService {
   }
 
   async register(credentials: { email; password }) {
+    /*const auth = getAuth();
+    createUserWithEmailAndPassword(
+      auth,
+      credentials.email,
+      credentials.password
+    ).then((userCredentials) => {
+      const user = userCredentials;
+      //  this.isAuthenticated.next(true);
+      return user;
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+      return
+    });;*/
     try {
       const user = await createUserWithEmailAndPassword(
         this.auth,
@@ -56,7 +77,6 @@ export class AuthenticationService {
   }
 
   async login(credentials: { email; password }) {
-    console.log(credentials);
     try {
       const user = await signInWithEmailAndPassword(
         this.auth,
@@ -72,6 +92,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.isAuthenticated.next(false);
     return signOut(this.auth);
   }
 

@@ -1,12 +1,12 @@
 <ion-content>
-  <ion-card class="login-header"><ion-img src="../../assets/design/header.png"></ion-img>
-    <ion-card-header class="login-headerTitle">
+  <ion-card class="register-header"><ion-img src="../../assets/design/header.png"></ion-img>
+    <ion-card-header class="register-headerTitle">
       <ion-card-title>Register</ion-card-title>
     </ion-card-header></ion-card>
 
-  <div class="login-content">
+  <div class="register-content">
     <form (ngSubmit)="register()" [formGroup]="credentials">
-      <div class="input-group">
+      <div class="register-input-group">
         <div class="register-nameInput">
         <ion-item>
           <ion-input
@@ -62,14 +62,14 @@
         </div>
       </div>
 
-      <ion-button class="login-buttons" fill="solid" type="submit" expand="block" [disabled]="credentials.invalid"
+      <ion-button class="register-buttons" fill="solid" type="submit" expand="block" [disabled]="credentials.invalid"
       >Register</ion-button
       >
       <ion-button type="button" expand="block" color="dark" fill="clear" (click)="redirectToLogin()"
       >Already have an account? Go to log in!</ion-button
       >
 
-      <ion-button class="login-buttons" type="button" expand="block">
+      <ion-button class="register-buttons" type="button" expand="block">
         <ion-icon name="logo-google" slot="start"></ion-icon>
         Register with Google
       </ion-button>

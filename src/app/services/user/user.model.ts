@@ -8,10 +8,9 @@ export interface UserModel {
   gender: Gender;
   height: number;
   weight: number;
-  desired_weight: number;
   desired_diet: Diet;
   physical_activity: PhysicalActivity;
-  meal_administration: CaloriesDivision;
+  meal_administration?: CaloriesDivision;
   bmr?: number;
   calories?: number;
   diet_calories?: number;

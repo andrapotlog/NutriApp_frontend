@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AlertController, LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -21,8 +21,6 @@ export class RegisterPage implements OnInit {
     first_name: new FormControl('', [Validators.required]),
     last_name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    //birthdate
-    //gender
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(this.minLength),
@@ -59,9 +57,15 @@ export class RegisterPage implements OnInit {
     await loading.dismiss();
 
     if (user) {
-      this.router.navigateByUrl('/register/create-profile', {
+      const params: NavigationExtras = {
+        queryParams: {
+          email: this.credentials.get('email').value,
+          first_name: this.credentials.get('first_name').value,
+          last_name: this.credentials.get('last_name').value,
+        },
         replaceUrl: true,
-      });
+      };
+      this.router.navigateByUrl('/register/create-profile', params);
     } else {
       this.authService.showAlert('Registration failed', 'Please try again!');
     }

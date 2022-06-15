@@ -9,8 +9,5 @@ import { UsersService } from './services/user/users.service';
 export class AppComponent implements OnInit {
   constructor(private userService: UsersService) {}
 
-  ngOnInit(): void {
-    this.userService.calculate_calories(this.userService.getUser());
-    this.userService.calculate_diet_calories(this.userService.getUser());
-  }
+  ngOnInit(): void {}
 }

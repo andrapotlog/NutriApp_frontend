@@ -12,14 +12,19 @@ ion-content {
   padding: 0 10%;
 }
 
+ion-input {
+  --placeholder-color: black;
+  --placeholder-opacity: 1;
+}
+
 .create-profile-heightWeight{
   display: flex;
 }
 
-.create-profile-buttons {
+.create-profile-button {
   --background: #5A5387;
   --background-activated: #534366;
-  margin: 0 20px;
+  margin: 5% 20px;
 }
 
 .create-profile-input-group {
@@ -29,13 +34,4 @@ ion-content {
   margin-bottom: 15px;
   margin-left: 2%;
   margin-right: 5%;
-}
-
-.errors {
-  font-size: small;
-  color: #fff;
-  background: var(--ion-color-danger);
-  padding-left: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
 }

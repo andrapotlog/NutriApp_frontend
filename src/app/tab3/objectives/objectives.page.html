@@ -1,9 +1,50 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>objectives</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-card class="register-header"
+    ><ion-img src="../../assets/design/header.png"></ion-img>
+    <ion-card-header class="register-headerTitle">
+      <ion-card-title>Your objectives</ion-card-title> </ion-card-header
+    >
 
+    <ion-card-content>
+      <div *ngIf="!edit" class="objectives-show">
+        <ion-item lines="none">
+         Goal: {{getDesiredDiet()}}
+
+        </ion-item>
+        <ion-item lines="none">Calories : {{user.diet_calories}}</ion-item>
+        <ion-button class="objectives-modifyBtn" fill="outline" (click)="editOn()">change</ion-button>
+      </div>
+
+      <div *ngIf="edit" class="objectives-show">
+        <ion-list>
+          <ion-radio-group [(ngModel)]="selectedValue">
+            <ion-list-header>
+              <ion-label>Select new goal</ion-label>
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label>Lose weight faster</ion-label>
+              <ion-radio slot="start" value="extreme_lose_weight"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Lose weight</ion-label>
+              <ion-radio slot="start" value="lose_weight"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Maintain</ion-label>
+              <ion-radio slot="start" value="maintainance"></ion-radio>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label>Gain weight</ion-label>
+              <ion-radio slot="start" value="gain_weight"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+        <ion-button class="objectives-saveBtn" (click)="editOff()" fill="outline" >salveaza</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

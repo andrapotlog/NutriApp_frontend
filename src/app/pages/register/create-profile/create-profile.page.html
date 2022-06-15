@@ -6,7 +6,29 @@
 
   <div class="create-profile-content">
     <form (ngSubmit)="register()" [formGroup]="credentials">
-      <div class="input-group">
+      <div class="create-profile-input-group">
+        <ion-item>
+          <ion-label>Birthdate</ion-label>
+          <ion-select placeholder="Day" formControlName="day">
+            <ion-select-option *ngFor="let day of days" value="{{day}}">{{day}}</ion-select-option>
+          </ion-select>
+
+          <ion-select placeholder="Month" formControlName="month">
+            <ion-select-option *ngFor="let month of months" value="{{month}}">{{month}}</ion-select-option>
+          </ion-select>
+
+        <ion-select placeholder="Year" formControlName="year">
+            <ion-select-option *ngFor="let year of years" value="{{year}}">{{year}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-select placeholder="Select One" formControlName="gender">
+            <ion-select-option value="f">Female</ion-select-option>
+            <ion-select-option value="m">Male</ion-select-option>
+          </ion-select>
+        </ion-item>
         <div class="create-profile-heightWeight">
           <ion-item>
             <ion-input
@@ -24,17 +46,29 @@
           </ion-item>
         </div>
         <ion-item>
-          <ion-input
-            type="email"
-            placeholder="Email"
-            formControlName="diet"
-          ></ion-input>
+          <ion-label>Objective</ion-label>
+          <ion-select placeholder="Select One" formControlName="diet">
+            <ion-select-option value="extreme_lose_weight">Faster lose weight</ion-select-option>
+            <ion-select-option value="lose_weight">Lose weight</ion-select-option>
+            <ion-select-option value="maintainance">Maintain</ion-select-option>
+            <ion-select-option value="gain_weight">Gain weight</ion-select-option>
+          </ion-select>
         </ion-item>
-
-      <ion-button class="create-profile-buttons" fill="solid" type="submit" expand="block" [disabled]="credentials.invalid"
+        <ion-item>
+          <ion-label>Physical Activity</ion-label>
+          <ion-select placeholder="Select One" formControlName="physical_activity">
+            <ion-select-option value="little_to_none">Little to none</ion-select-option>
+            <ion-select-option value="light">Light</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="hard">Hard</ion-select-option>
+            <ion-select-option value="intense">Intense</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <ion-button class="create-profile-button" fill="solid" type="submit" expand="block" [disabled]="credentials.invalid"
       >Register</ion-button
       >
-      </div>
+
     </form>
   </div>
 </ion-content>

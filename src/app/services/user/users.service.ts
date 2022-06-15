@@ -21,9 +21,11 @@ export class UsersService {
     gender: Gender.female,
     height: 172,
     weight: 70,
-    desired_weight: 65,
     desired_diet: Diet.lose_weight,
     physical_activity: PhysicalActivity.little_to_none,
+    bmr: 1504,
+    calories: 1800,
+    diet_calories: 1500,
     meal_administration: {
       breakfast: 400,
       lunch: 400,
@@ -35,7 +37,7 @@ export class UsersService {
   constructor() {}
 
   getUser() {
-    return this.user;
+    return { ...this.user };
   }
 
   calculate_age(date: Date): number {
@@ -64,21 +66,21 @@ export class UsersService {
   }
 
   calculate_calories(user: UserModel) {
-    user.calories = Math.round(
+    return Math.round(
       user.physical_activity === PhysicalActivity.little_to_none
-        ? 1.2 * this.calculate_bmr(user)
+        ? 1.2 * user.bmr
         : user.physical_activity === PhysicalActivity.light
-        ? 1.375 * this.calculate_bmr(user)
+        ? 1.375 * user.bmr
         : user.physical_activity === PhysicalActivity.medium
-        ? 1.55 * this.calculate_bmr(user)
+        ? 1.55 * user.bmr
         : user.physical_activity === PhysicalActivity.hard
-        ? 1.725 * this.calculate_bmr(user)
-        : 1.9 * this.calculate_bmr(user)
+        ? 1.725 * user.bmr
+        : 1.9 * user.bmr
     );
   }
 
   calculate_diet_calories(user: UserModel) {
-    user.diet_calories =
+    let diet_calories =
       user.desired_diet === Diet.extreme_lose_weight
         ? user.calories - 500
         : user.desired_diet === Diet.lose_weight
@@ -86,12 +88,70 @@ export class UsersService {
         : user.desired_diet === Diet.gain_weight
         ? user.calories + 500
         : user.calories;
-    if (user.diet_calories < 1200) {
-      user.diet_calories = 1200;
+    if (diet_calories < 1200) {
+      diet_calories = 1200;
     }
+
+    return diet_calories;
   }
 
   updateMealAdministration(div: CaloriesDivision) {
     this.user.meal_administration = { ...div };
+  }
+
+  getDesiredDiet(diet: string): Diet {
+    return diet === 'extreme_lose_weight'
+      ? Diet.extreme_lose_weight
+      : diet === 'lose_weight'
+      ? Diet.lose_weight
+      : diet === 'maintainance'
+      ? Diet.maintainance
+      : Diet.gain_weight;
+  }
+
+  getPhysicalActivity(physical_activity: string): PhysicalActivity {
+    return physical_activity === 'little_to_none'
+      ? PhysicalActivity.little_to_none
+      : physical_activity === 'light'
+      ? PhysicalActivity.light
+      : physical_activity === 'medium'
+      ? PhysicalActivity.medium
+      : physical_activity === 'hard'
+      ? PhysicalActivity.hard
+      : PhysicalActivity.intense;
+  }
+
+  createUserProfile(user: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    birthdate: Date;
+    gender: string;
+    height: number;
+    weight: number;
+    desired_diet: string;
+    physical_activity: string;
+  }) {
+    console.log(user);
+
+    this.user = {
+      id_user: 1,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      created_at: new Date(),
+      email: user.email,
+      birthdate: new Date('1999-10-02'),
+      gender: user.gender === 'f' ? Gender.female : Gender.male,
+      height: user.height,
+      weight: user.weight,
+      desired_diet: this.getDesiredDiet(user.desired_diet),
+      physical_activity: this.getPhysicalActivity(user.physical_activity),
+    };
+
+    this.user.bmr = this.calculate_bmr(this.user);
+    this.user.calories = this.calculate_calories(this.user);
+    this.user.diet_calories = this.calculate_diet_calories(this.user);
+
+    console.log(this.user);
   }
 }

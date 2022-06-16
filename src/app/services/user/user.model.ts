@@ -8,7 +8,9 @@ export interface UserModel {
   gender: Gender;
   height: number;
   weight: number;
-  desired_diet: Diet;
+  goal: Goal;
+  diet: Diet;
+  health: Health[];
   physical_activity: PhysicalActivity;
   meal_administration?: CaloriesDivision;
   bmr?: number;
@@ -24,6 +26,34 @@ export interface CaloriesDivision {
 }
 
 export enum Diet {
+  empty,
+  balanced,
+  high_fiber,
+  high_protein,
+  low_carb,
+  low_fat,
+  low_sodium,
+}
+
+export enum Health {
+  empty,
+  alcohol_free,
+  celery_free,
+  crustacean_free,
+  dairy_free,
+  egg_free,
+  fish_free,
+  gluten_free,
+  low_sugar,
+  peanut_free,
+  pork_free,
+  red_meat_free,
+  vegan,
+  vegetarian,
+  wheat_free,
+}
+
+export enum Goal {
   extreme_lose_weight,
   lose_weight,
   maintainance,

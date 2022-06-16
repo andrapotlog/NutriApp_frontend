@@ -19,26 +19,53 @@
     animated="true"
     (keyup.enter)="handleLogin()"
   ></ion-searchbar>
-<!--  <ion-item><ion-input type="text" [(ngModel)]="searchField" (keyup.enter)="handleLogin()"></ion-input></ion-item>-->
+  <!--  <ion-item><ion-input type="text" [(ngModel)]="searchField" (keyup.enter)="handleLogin()"></ion-input></ion-item>-->
   <ion-list>
     <!--<ion-item button *ngFor="let food of data">
       <p>{{food.food.label}}</p>
       <p>-->
-      <ion-accordion-group *ngFor="let food of data">
-        <ion-accordion value="colors">
-          <ion-item slot="header">
-            <ion-label>{{food.food.label}}</ion-label>
-          </ion-item>
+    <ion-accordion-group *ngFor="let food of data">
+      <ion-accordion value="colors">
+        <ion-item slot="header">
+          <ion-label>{{food.food.label}}</ion-label>
+        </ion-item>
 
-          <ion-list slot="content">
-            <ion-item>
-              <p>Calorii per serving: {{food.food.nutrients.ENERC_KCAL}}</p>
-            </ion-item>
-            <ion-item button>add</ion-item>
-          </ion-list>
-        </ion-accordion>
-      </ion-accordion-group>
-  <!--    </p>
+        <ion-list slot="content">
+          <ion-item>
+          <ion-label>
+            <p>
+              Calories per serving: {{food.food.nutrients.ENERC_KCAL}} kcal
+            </p>
+            <p>
+              Proteins: {{food.food.nutrients.PROCNT}} g
+            </p>
+            <p>
+              Carbs: {{food.food.nutrients.CHOCDF}} g
+            </p>
+            <p>
+              Fats: {{food.food.nutrients.FAT}} g
+            </p> </ion-label
+          ></ion-item><ion-item>
+            <ion-input [(ngModel)]="gramsInput" placeholder="quantity (grams)" type="number"></ion-input
+          ></ion-item>
+          <ion-item
+            button
+            (click)="addItem({id_food: food.food.foodId,
+                                      name: food.food.label,
+                                      category: food.food.category,
+                                      measure_label: 'grams',
+                                      energ_kcal: food.food.nutrients.ENERC_KCAL,
+                                      protein: food.food.nutrients.PROCNT,
+                                      carbs: food.food.nutrients.CHOCDF,
+                                      fats: food.food.nutrients.FAT},
+                                  openedFrom)"
+            [disabled]="!gramsInput"
+            >Add</ion-item
+          >
+        </ion-list>
+      </ion-accordion>
+    </ion-accordion-group>
+    <!--    </p>
     </ion-item>-->
   </ion-list>
 </ion-content>

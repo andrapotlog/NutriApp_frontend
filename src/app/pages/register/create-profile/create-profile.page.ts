@@ -96,7 +96,7 @@ export class CreateProfilePage implements OnInit {
       gender: this.credentials.get('gender').value,
       height: this.credentials.get('height').value,
       weight: this.credentials.get('weight').value,
-      desired_diet: this.credentials.get('diet').value,
+      goal: this.credentials.get('diet').value,
       physical_activity: this.credentials.get('physical_activity').value,
     });
 

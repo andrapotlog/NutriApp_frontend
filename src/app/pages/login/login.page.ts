@@ -25,8 +25,6 @@ export class LoginPage implements OnInit {
     ]),
   });
 
-  //credentials: FormGroup;
-
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService,

@@ -23,12 +23,12 @@
 
   <ion-card>
     <ion-card-header>
-      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
       <ion-card-title>Mic Dejun</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <div *ngIf="emptyDB(breakfastDB)">Niciun aliment consumat</div>
+
       <ion-list>
         <ion-item *ngFor="let item of breakfastDB">
           <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
@@ -41,12 +41,17 @@
 
   <ion-card>
     <ion-card-header>
-      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
       <ion-card-title>Pranz</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <div *ngIf="emptyDB(lunchDB)">Niciun aliment consumat</div>
+
+      <ion-list>
+        <ion-item *ngFor="let item of lunchDB">
+          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+        </ion-item>
+      </ion-list>
 
       <ion-button (click)="openModal('lunch')">Adauga alimente</ion-button>
     </ion-card-content>
@@ -54,12 +59,17 @@
 
   <ion-card>
     <ion-card-header>
-      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
       <ion-card-title>Cina</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <div *ngIf="emptyDB(dinnerDB)">Niciun aliment consumat</div>
+
+      <ion-list>
+        <ion-item *ngFor="let item of dinnerDB">
+          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+        </ion-item>
+      </ion-list>
 
       <ion-button (click)="openModal('dinner')">Adauga alimente</ion-button>
     </ion-card-content>
@@ -67,12 +77,17 @@
 
   <ion-card>
     <ion-card-header>
-      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
       <ion-card-title>Gustare</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <div *ngIf="emptyDB(snacksDB)">Niciun aliment consumat</div>
+
+      <ion-list>
+        <ion-item *ngFor="let item of snacksDB">
+          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+        </ion-item>
+      </ion-list>
 
       <ion-button (click)="openModal('snacks')">Adauga alimente</ion-button>
     </ion-card-content>

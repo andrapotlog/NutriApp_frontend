@@ -1,5 +1,5 @@
 export interface FoodsModel {
-  id_food: number;
+  id_food: string;
   name: string;
   category: string;
   measure_label: string;
@@ -10,7 +10,7 @@ export interface FoodsModel {
 }
 
 export interface MealDB {
-  id_food: number;
+  id_food: string;
   portion: number;
 }
 

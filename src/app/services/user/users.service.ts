@@ -3,6 +3,8 @@ import {
   CaloriesDivision,
   Diet,
   Gender,
+  Goal,
+  Health,
   PhysicalActivity,
   UserModel,
 } from './user.model';
@@ -21,7 +23,9 @@ export class UsersService {
     gender: Gender.female,
     height: 172,
     weight: 70,
-    desired_diet: Diet.lose_weight,
+    goal: Goal.lose_weight,
+    diet: Diet.balanced,
+    health: [Health.empty],
     physical_activity: PhysicalActivity.little_to_none,
     bmr: 1504,
     calories: 1800,
@@ -81,11 +85,27 @@ export class UsersService {
 
   calculate_diet_calories(user: UserModel) {
     let diet_calories =
-      user.desired_diet === Diet.extreme_lose_weight
+      user.goal === Goal.extreme_lose_weight
         ? user.calories - 500
-        : user.desired_diet === Diet.lose_weight
+        : user.goal === Goal.lose_weight
         ? user.calories - 300
-        : user.desired_diet === Diet.gain_weight
+        : user.goal === Goal.gain_weight
+        ? user.calories + 500
+        : user.calories;
+    if (diet_calories < 1200) {
+      diet_calories = 1200;
+    }
+
+    return diet_calories;
+  }
+
+  calculate_diet_calories_specific(user: UserModel, diet: Goal) {
+    let diet_calories =
+      diet === Goal.extreme_lose_weight
+        ? user.calories - 500
+        : diet === Goal.lose_weight
+        ? user.calories - 300
+        : diet === Goal.gain_weight
         ? user.calories + 500
         : user.calories;
     if (diet_calories < 1200) {
@@ -99,14 +119,14 @@ export class UsersService {
     this.user.meal_administration = { ...div };
   }
 
-  getDesiredDiet(diet: string): Diet {
+  getDesiredGoal(diet: string): Goal {
     return diet === 'extreme_lose_weight'
-      ? Diet.extreme_lose_weight
+      ? Goal.extreme_lose_weight
       : diet === 'lose_weight'
-      ? Diet.lose_weight
+      ? Goal.lose_weight
       : diet === 'maintainance'
-      ? Diet.maintainance
-      : Diet.gain_weight;
+      ? Goal.maintainance
+      : Goal.gain_weight;
   }
 
   getPhysicalActivity(physical_activity: string): PhysicalActivity {
@@ -129,7 +149,7 @@ export class UsersService {
     gender: string;
     height: number;
     weight: number;
-    desired_diet: string;
+    goal: string;
     physical_activity: string;
   }) {
     console.log(user);
@@ -144,7 +164,9 @@ export class UsersService {
       gender: user.gender === 'f' ? Gender.female : Gender.male,
       height: user.height,
       weight: user.weight,
-      desired_diet: this.getDesiredDiet(user.desired_diet),
+      goal: this.getDesiredGoal(user.goal),
+      diet: Diet.empty,
+      health: [Health.empty],
       physical_activity: this.getPhysicalActivity(user.physical_activity),
     };
 

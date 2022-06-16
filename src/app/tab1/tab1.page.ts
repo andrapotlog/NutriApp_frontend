@@ -6,7 +6,7 @@ import { FoodsModel, MealDB, MealReport } from '../services/food/foods.model';
 import { UtilsService } from '../services/utils/utils.service';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
-import { HttpClient } from '@angular/common/http';
+import { UtilsModel } from '../services/utils/utils.model';
 
 @Component({
   selector: 'app-tab1',
@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 export class Tab1Page implements OnInit {
   private user: UserModel;
   private foods: FoodsModel[];
+  private todayEntry: UtilsModel;
 
   private breakfastDB: MealDB[] = [];
   private lunchDB: MealDB[] = [];
@@ -33,19 +34,19 @@ export class Tab1Page implements OnInit {
     private foodServ: FoodsService,
     private utilsService: UtilsService,
     private modalContr: ModalController,
-    private routerOutler: IonRouterOutlet,
-    private http: HttpClient
+    private routerOutler: IonRouterOutlet
   ) {}
 
   ngOnInit(): void {
     this.user = this.userService.getUser();
-    this.userService.calculate_calories(this.user);
-
     this.foods = this.foodServ.getFoods();
+    this.todayEntry = this.utilsService.getEntryOfDay(this.nowDate);
 
-    //this.breakfastDB = this.foods.slice();
-    const todayEntry = this.utilsService.getEntryOfDay(this.nowDate);
-    this.breakfastDB = todayEntry.breakfastDB;
+    this.breakfastDB = this.todayEntry.breakfastDB;
+    this.lunchDB = this.todayEntry.lunchDB;
+    this.dinnerDB = this.todayEntry.dinnerDB;
+    this.snacksDB = this.todayEntry.snacksDB;
+    console.log(this.utilsService.getCalendar());
   }
 
   async openModal(data: string) {
@@ -113,22 +114,4 @@ export class Tab1Page implements OnInit {
       ),
     };
   }
-
-  /*let currentModal = null;
-  async function openModal(opts = {}) {
-    const modal = await modalController.create({
-      component: 'modal-content',
-      ...opts,
-    });
-    modal.present();
-
-    currentModal = modal;
-  }
-
-  openCardModal() {
-    openModal({
-      swipeToClose: true,
-      presentingElement: pageEl,
-    });
-  }*/
 }

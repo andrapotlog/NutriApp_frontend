@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/user/users.service';
-import { Diet, UserModel } from '../../services/user/user.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Goal, UserModel } from '../../services/user/user.model';
 
 @Component({
   selector: 'app-objectives',
@@ -12,32 +11,54 @@ export class ObjectivesPage implements OnInit {
   private edit: boolean = false;
   private user: UserModel;
 
-  private selectedValue = '';
+  private selectedGoal = '';
+  private selectedDiet = '';
+
+  private newDietCalories = { extreme: 0, lose: 0, maintain: 0, gain: 0 };
 
   constructor(private userService: UsersService) {}
 
   ngOnInit() {
     this.user = this.userService.getUser();
+
+    this.newDietCalories = {
+      extreme: this.userService.calculate_diet_calories_specific(
+        this.user,
+        Goal.extreme_lose_weight
+      ),
+      lose: this.userService.calculate_diet_calories_specific(
+        this.user,
+        Goal.lose_weight
+      ),
+      maintain: this.userService.calculate_diet_calories_specific(
+        this.user,
+        Goal.maintainance
+      ),
+      gain: this.userService.calculate_diet_calories_specific(
+        this.user,
+        Goal.gain_weight
+      ),
+    };
   }
 
-  getDesiredDiet() {
-    return this.user.desired_diet === Diet.extreme_lose_weight
+  getDesiredGoal() {
+    return this.user.goal === Goal.extreme_lose_weight
       ? 'Lose Weight Fast'
-      : this.user.desired_diet === Diet.lose_weight
+      : this.user.goal === Goal.lose_weight
       ? 'Lose Weight'
-      : this.user.desired_diet === Diet.maintainance
+      : this.user.goal === Goal.maintainance
       ? 'Maintenance'
       : 'Gain Weight';
   }
 
-  getDesiredDietFromString(diet: string) {
+  getDesiredGoalFromString(diet: string) {
     return diet === 'extreme_lose_weight'
-      ? Diet.extreme_lose_weight
+      ? Goal.extreme_lose_weight
       : diet === 'lose_weight'
-      ? Diet.lose_weight
+      ? Goal.lose_weight
       : diet === 'maintainance'
-      ? Diet.maintainance
-      : Diet.gain_weight;
+      ? Goal.maintainance
+      : Goal.gain_weight;
   }
 
   editOn() {
@@ -46,7 +67,10 @@ export class ObjectivesPage implements OnInit {
 
   editOff() {
     this.edit = false;
-    console.log(this.selectedValue);
-    this.user.desired_diet = this.getDesiredDietFromString(this.selectedValue);
+    this.user.goal = this.getDesiredGoalFromString(this.selectedGoal);
+    this.user.diet_calories = this.userService.calculate_diet_calories_specific(
+      this.user,
+      this.user.goal
+    );
   }
 }

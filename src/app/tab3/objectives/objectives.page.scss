@@ -24,4 +24,10 @@ ion-content {
 .objectives-saveBtn {
   width: 25%;
   float: right;
+  --background: #5A5387;
+  --background-activated: #534366;
+}
+
+ion-radio {
+  --color: #534366;
 }

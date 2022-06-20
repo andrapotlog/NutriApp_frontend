@@ -88,17 +88,22 @@ export class CreateProfilePage implements OnInit {
       day +
       this.credentials.get('day').value.toString();
 
-    this.userService.createUserProfile({
-      first_name: this.routerState.first_name,
-      last_name: this.routerState.last_name,
-      email: this.routerState.email,
-      birthdate: new Date(birthdate),
-      gender: this.credentials.get('gender').value,
-      height: this.credentials.get('height').value,
-      weight: this.credentials.get('weight').value,
-      goal: this.credentials.get('diet').value,
-      physical_activity: this.credentials.get('physical_activity').value,
-    });
+    this.userService
+      .createUserProfile({
+        uid: this.routerState.uid,
+        first_name: this.routerState.first_name,
+        last_name: this.routerState.last_name,
+        email: this.routerState.email,
+        birthdate: birthdate,
+        gender: this.credentials.get('gender').value,
+        height: this.credentials.get('height').value,
+        weight: this.credentials.get('weight').value,
+        goal: this.credentials.get('diet').value,
+        physical_activity: this.credentials.get('physical_activity').value,
+      })
+      .subscribe((res) => {
+        console.log(res);
+      });
 
     this.router.navigateByUrl('/tabs', { replaceUrl: true });
   }

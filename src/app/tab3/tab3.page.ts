@@ -12,6 +12,8 @@ import { UsersService } from '../services/user/users.service';
 export class Tab3Page implements OnInit {
   private user: UserModel;
 
+  private users: UserModel[] = [];
+
   constructor(
     private authService: AuthenticationService,
     private router: Router,
@@ -26,6 +28,4 @@ export class Tab3Page implements OnInit {
     await this.authService.logout();
     this.router.navigateByUrl('/', { replaceUrl: true });
   }
-
-  buttonClick() {}
 }

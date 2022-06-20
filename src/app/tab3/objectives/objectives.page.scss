@@ -1,10 +1,20 @@
-.register-headerTitle {
-  padding-left: 10%;
+.objectives-title {
+  padding-left: 9%;
 }
 
-.register-header {
+.objectives-content {
   margin: 0 0 10% 0;
   box-shadow: none;
+  position:relative;
+}
+
+.objectives-closeBtn {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  color: black;
+  width: 30px;
+  height: 30px;
 }
 
 ion-content {
@@ -18,11 +28,12 @@ ion-content {
 
 .objectives-modifyBtn {
   width: 25%;
+  height: 30px;
   float: right;
 }
 
 .objectives-saveBtn {
-  width: 25%;
+  height: 30px;
   float: right;
   --background: #5A5387;
   --background-activated: #534366;
@@ -30,4 +41,12 @@ ion-content {
 
 ion-radio {
   --color: #534366;
+}
+
+ion-label{
+  padding-left: 5%;
+}
+
+ion-item {
+  padding-left: 8%;
 }

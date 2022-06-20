@@ -8,45 +8,139 @@ import {
   PhysicalActivity,
   UserModel,
 } from './user.model';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  private user: UserModel = {
-    id_user: 1,
-    first_name: 'Andra',
-    last_name: 'Potlog',
-    created_at: new Date(),
-    email: 'andraapotlog@gmail.com',
-    birthdate: new Date('1999-10-02'),
-    gender: Gender.female,
-    height: 172,
-    weight: 70,
-    goal: Goal.lose_weight,
-    diet: Diet.balanced,
-    health: [Health.empty],
-    physical_activity: PhysicalActivity.little_to_none,
-    bmr: 1504,
-    calories: 1800,
-    diet_calories: 1500,
-    meal_administration: {
-      breakfast: 400,
-      lunch: 400,
-      dinner: 400,
-      snacks: 305,
-    },
-  };
+  private user: UserModel;
 
-  constructor() {}
+  constructor(private http: HttpClient) {
+    this.getUserReq().subscribe((user) => {
+      this.user = { ...user[0], health: user[0].health.split(',') };
+    });
+  }
 
   getUser() {
     return { ...this.user };
   }
 
+  //get
+  getUserReq(): Observable<UserModel> {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    const options = {
+      params: { uid: user.uid },
+    };
+
+    return this.http.get<UserModel>('http://localhost:8000/getUser', options);
+  }
+
+  //post
+  createUserProfile(user: {
+    uid: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    birthdate: string;
+    gender: string;
+    height: number;
+    weight: number;
+    goal: string;
+    physical_activity: string;
+  }) {
+    console.log(user);
+
+    this.user = {
+      id_user: 1,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      created_at: new Date(),
+      email: user.email,
+      birthdate: new Date('1999-10-02'),
+      gender: user.gender === 'f' ? Gender.female : Gender.male,
+      height: user.height,
+      weight: user.weight,
+      goal: this.getDesiredGoal(user.goal),
+      diet: Diet.empty,
+      health: [Health.empty],
+      physical_activity: this.getPhysicalActivity(user.physical_activity),
+    };
+
+    this.user.bmr = this.calculate_bmr(this.user);
+    this.user.calories = this.calculate_calories(this.user);
+    this.user.diet_calories = this.calculate_diet_calories(this.user);
+
+    const options = {
+      params: {
+        id_user: user.uid,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        birthdate: user.birthdate,
+        gender: user.gender === 'f' ? 'female' : 'male',
+        height: user.height,
+        weight: user.weight,
+        goal: user.goal,
+        physical_activity: user.physical_activity,
+        bmr: this.user.bmr,
+        calories: this.user.calories,
+        diet_calories: this.user.diet_calories,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/registerUser', options, {
+      responseType: 'text',
+    });
+  }
+
+  //post
+  updateUserGoal(goal: Goal, diet_calories: number) {
+    const options = {
+      params: {
+        uid: this.user.id_user,
+        goal: goal,
+        diet_calories: diet_calories,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/updateUserGoal', options, {
+      responseType: 'text',
+    });
+  }
+
+  //post
+  updateUserDiet(diet: Diet) {
+    const options = {
+      params: {
+        uid: this.user.id_user,
+        diet: diet,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/updateUserDiet', options, {
+      responseType: 'text',
+    });
+  }
+
+  //post
+  updateUserHealth(health: string) {
+    const options = {
+      params: {
+        uid: this.user.id_user,
+        health: health,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/updateUserHealth', options, {
+      responseType: 'text',
+    });
+  }
+
   calculate_age(date: Date): number {
     let timeDiff = Math.abs(Date.now() - date.getTime());
-
+    console.log(Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25));
     return Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
   }
 
@@ -57,12 +151,12 @@ export class UsersService {
       5 * this.calculate_age(user.birthdate);
 
     if (user.gender === Gender.male) {
-      const bmr = standard + 5;
+      const bmr = Math.round(standard + 5);
 
       user.bmr = bmr;
       return bmr;
     } else {
-      const bmr = standard - 161;
+      const bmr = Math.round(standard - 161);
 
       user.bmr = bmr;
       return bmr;
@@ -139,41 +233,5 @@ export class UsersService {
       : physical_activity === 'hard'
       ? PhysicalActivity.hard
       : PhysicalActivity.intense;
-  }
-
-  createUserProfile(user: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    birthdate: Date;
-    gender: string;
-    height: number;
-    weight: number;
-    goal: string;
-    physical_activity: string;
-  }) {
-    console.log(user);
-
-    this.user = {
-      id_user: 1,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      created_at: new Date(),
-      email: user.email,
-      birthdate: new Date('1999-10-02'),
-      gender: user.gender === 'f' ? Gender.female : Gender.male,
-      height: user.height,
-      weight: user.weight,
-      goal: this.getDesiredGoal(user.goal),
-      diet: Diet.empty,
-      health: [Health.empty],
-      physical_activity: this.getPhysicalActivity(user.physical_activity),
-    };
-
-    this.user.bmr = this.calculate_bmr(this.user);
-    this.user.calories = this.calculate_calories(this.user);
-    this.user.diet_calories = this.calculate_diet_calories(this.user);
-
-    console.log(this.user);
   }
 }

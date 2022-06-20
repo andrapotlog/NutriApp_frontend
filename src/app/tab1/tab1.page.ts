@@ -6,7 +6,7 @@ import { FoodsModel, MealDB, MealReport } from '../services/food/foods.model';
 import { UtilsService } from '../services/utils/utils.service';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { ModalPage } from '../modal/modal.page';
-import { UtilsModel } from '../services/utils/utils.model';
+import { Journal } from '../services/utils/utils.model';
 
 @Component({
   selector: 'app-tab1',
@@ -16,18 +16,14 @@ import { UtilsModel } from '../services/utils/utils.model';
 export class Tab1Page implements OnInit {
   private user: UserModel;
   private foods: FoodsModel[];
-  private todayEntry: UtilsModel;
 
+  private entry: Journal;
   private breakfastDB: MealDB[] = [];
   private lunchDB: MealDB[] = [];
   private dinnerDB: MealDB[] = [];
   private snacksDB: MealDB[] = [];
 
-  private nowDate = new Date();
-
-  private grams = 200;
-
-  data: any[] = [];
+  private date = '20-06-2022';
 
   constructor(
     private userService: UsersService,
@@ -40,23 +36,64 @@ export class Tab1Page implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.getUser();
     this.foods = this.foodServ.getFoods();
-    this.todayEntry = this.utilsService.getEntryOfDay(this.nowDate);
 
-    this.breakfastDB = this.todayEntry.breakfastDB;
-    this.lunchDB = this.todayEntry.lunchDB;
-    this.dinnerDB = this.todayEntry.dinnerDB;
-    this.snacksDB = this.todayEntry.snacksDB;
-    console.log(this.utilsService.getCalendar());
+    this.updateMeals();
+  }
+
+  updateMeals() {
+    this.utilsService.getEntryOfADay(this.date).subscribe((entry) => {
+      this.entry = entry[0];
+
+      this.foodServ
+        .getMealEntry(entry[0].breaskfast_entry)
+        .subscribe((meal) => {
+          console.log(meal);
+          this.breakfastDB = meal;
+        });
+
+      this.foodServ.getMealEntry(entry[0].lunch_entry).subscribe((meal) => {
+        this.lunchDB = meal;
+      });
+
+      this.foodServ.getMealEntry(entry[0].dinner_entry).subscribe((meal) => {
+        this.dinnerDB = meal;
+      });
+
+      this.foodServ.getMealEntry(entry[0].snack_entry).subscribe((meal) => {
+        this.snacksDB = meal;
+      });
+    });
   }
 
   async openModal(data: string) {
+    let id_meal = 0;
+
+    if (data === 'breakfast') {
+      id_meal = this.emptyDB(this.breakfastDB)
+        ? 0
+        : this.entry.breaskfast_entry;
+    } else if (data === 'lunch') {
+      id_meal = this.emptyDB(this.lunchDB) ? 0 : this.entry.lunch_entry;
+    } else if (data === 'dinner') {
+      id_meal = this.emptyDB(this.dinnerDB) ? 0 : this.entry.dinner_entry;
+    } else {
+      id_meal = this.emptyDB(this.snacksDB) ? 0 : this.entry.snack_entry;
+    }
+    console.log('id meal: ', id_meal);
+
     const modal = await this.modalContr.create({
       component: ModalPage,
       canDismiss: true,
       presentingElement: this.routerOutler.nativeEl,
       componentProps: {
         openedFrom: data,
+        id_meal: id_meal,
+        date: this.date,
       },
+    });
+
+    modal.onDidDismiss().then((data) => {
+      this.updateMeals();
     });
     return await modal.present();
   }

@@ -1,14 +1,7 @@
-import { MealDB, MealReport } from '../food/foods.model';
-
-export interface UtilsModel {
+export interface Journal {
   date: string;
-  breakfastDB: MealDB[];
-  lunchDB: MealDB[];
-  dinnerDB: MealDB[];
-  snacksDB: MealDB[];
-  dayReport?: MealReport;
-  breakfastReport?: MealReport;
-  lunchReport?: MealReport;
-  dinnerReport?: MealReport;
-  snacksReport?: MealReport;
+  breaskfast_entry: number;
+  lunch_entry: number;
+  dinner_entry: number;
+  snack_entry: number;
 }

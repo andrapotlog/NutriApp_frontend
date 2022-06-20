@@ -10,6 +10,7 @@ export interface FoodsModel {
 }
 
 export interface MealDB {
+  id_meal: number;
   id_food: string;
   portion: number;
 }

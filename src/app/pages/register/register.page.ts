@@ -59,6 +59,7 @@ export class RegisterPage implements OnInit {
     if (user) {
       const params: NavigationExtras = {
         queryParams: {
+          uid: user.user.uid,
           email: this.credentials.get('email').value,
           first_name: this.credentials.get('first_name').value,
           last_name: this.credentials.get('last_name').value,

@@ -2,13 +2,6 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {
-  getAuth,
-  setPersistence,
-  browserSessionPersistence,
-  onAuthStateChanged,
-} from 'firebase/auth';
-import { map, switchMap, tap } from 'rxjs/operators';
 
 import {
   Auth,
@@ -18,6 +11,7 @@ import {
   user,
 } from '@angular/fire/auth';
 import { AlertController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 const TOKEN_KEY = 'my-token';
 
@@ -29,13 +23,28 @@ export class AuthenticationService {
     null
   );
   token = '';
+  private userData: any;
 
   constructor(
     private http: HttpClient,
     private auth: Auth,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private angularFireAuth: AngularFireAuth
   ) {
     this.loadToken();
+
+    this.angularFireAuth.authState.subscribe((user) => {
+      if (user) {
+        console.log(user);
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        console.log(user);
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
   }
 
   async loadToken() {
@@ -47,21 +56,6 @@ export class AuthenticationService {
   }
 
   async register(credentials: { email; password }) {
-    /*const auth = getAuth();
-    createUserWithEmailAndPassword(
-      auth,
-      credentials.email,
-      credentials.password
-    ).then((userCredentials) => {
-      const user = userCredentials;
-      //  this.isAuthenticated.next(true);
-      return user;
-    }).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-      return
-    });;*/
     try {
       const user = await createUserWithEmailAndPassword(
         this.auth,

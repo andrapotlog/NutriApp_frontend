@@ -1,96 +1,231 @@
 <ion-content>
-  <ion-card class="register-header"
-    ><ion-img src="../../assets/design/header.png"></ion-img>
-    <ion-card-header class="register-headerTitle">
-      <ion-card-title>Your objectives</ion-card-title> </ion-card-header
-    >
+  <ion-card class="objectives-content">
+    <ion-icon
+      button
+      class="objectives-closeBtn"
+      name="arrow-back-outline"
+      (click)="back()"
+    ></ion-icon>
+    <ion-img src="../../assets/design/header.png"></ion-img>
+    <ion-card-header class="objectives-title">
+      <ion-card-title>Your objectives</ion-card-title>
+    </ion-card-header>
 
     <ion-card-content>
-      <div *ngIf="!edit" class="objectives-show">
-        <ion-item lines="none">
-         Goal: {{getDesiredGoal()}}
+      <div>
+        <div *ngIf="!editGoal" class="objectives-showGoal">
+          <ion-button
+            class="objectives-modifyBtn"
+            fill="outline"
+            color="dark"
+            (click)="editOn('goal')"
+            [disabled]="editDiet || editHealth"
+          >
+            Change
+          </ion-button>
+          <ion-label>Goal: </ion-label>
+          <ion-item lines="none">{{getGoal()}} </ion-item>
 
-        </ion-item>
-        <ion-item lines="none">Calories : {{user.diet_calories}}</ion-item>
-        <ion-button class="objectives-modifyBtn" fill="outline" color="dark" (click)="editOn()">change</ion-button>
+          <ion-label>Calories:</ion-label>
+          <ion-item lines="none">{{user.diet_calories}}</ion-item>
+        </div>
+
+        <div *ngIf="editGoal" class="objectives-show">
+          <ion-list>
+            <ion-radio-group [(ngModel)]="selectedGoal">
+              <ion-list-header>
+                <ion-label>Select new goal</ion-label>
+                <ion-button
+                  class="objectives-saveBtn"
+                  (click)="editOffGoal()"
+                  fill="outline"
+                  color="dark"
+                >
+                  Save
+                </ion-button>
+              </ion-list-header>
+
+              <ion-item>
+                <ion-label>Lose weight faster</ion-label>
+                <p>{{newDietCalories.extreme}} kcal</p>
+                <ion-radio slot="start" value="extreme_lose_weight"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Lose weight</ion-label>
+                <p>{{newDietCalories.lose}} kcal</p>
+                <ion-radio slot="start" value="lose_weight"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Maintain</ion-label>
+                <p>{{newDietCalories.maintain}} kcal</p>
+                <ion-radio slot="start" value="maintainance"></ion-radio>
+              </ion-item>
+
+              <ion-item lines="none">
+                <ion-label>Gain weight</ion-label>
+                <p>{{newDietCalories.gain}} kcal</p>
+                <ion-radio slot="start" value="gain_weight"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+        </div>
       </div>
 
-      <div *ngIf="edit" class="objectives-show">
-        <ion-list>
-          <ion-radio-group [(ngModel)]="selectedGoal">
+      <div>
+        <div *ngIf="!editDiet">
+          <br />
+          <ion-button
+            class="objectives-modifyBtn"
+            fill="outline"
+            color="dark"
+            (click)="editOn('diet')"
+            [disabled]="editGoal || editHealth"
+          >
+            Change
+          </ion-button>
+          <ion-label>Diet: </ion-label>
+          <ion-item lines="none">{{getDiet()}}</ion-item>
+        </div>
+
+        <div *ngIf="editDiet">
+          <ion-list>
+            <ion-radio-group [(ngModel)]="selectedDiet">
+              <ion-list-header>
+                <ion-label>Select new diet</ion-label>
+                <ion-button
+                  class="objectives-saveBtn"
+                  (click)="editOffDiet()"
+                  fill="outline"
+                  color="dark"
+                >
+                  Save
+                </ion-button>
+              </ion-list-header>
+
+              <ion-item>
+                <ion-label>None</ion-label>
+                <ion-radio slot="start" value="empty"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Balanced</ion-label>
+                <ion-radio slot="start" value="balanced"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>High-fiber</ion-label>
+                <ion-radio slot="start" value="high_fiber"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>High-protein</ion-label>
+                <ion-radio slot="start" value="high_protein"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Low-carb</ion-label>
+                <ion-radio slot="start" value="low_carb"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Low-fat</ion-label>
+                <ion-radio slot="start" value="low_fat"></ion-radio>
+              </ion-item>
+
+              <ion-item lines="none">
+                <ion-label>Low-sodium</ion-label>
+                <ion-radio slot="start" value="low_sodium"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+        </div>
+      </div>
+
+      <div>
+        <div *ngIf="!editHealth">
+          <br />
+          <ion-button
+            class="objectives-modifyBtn"
+            fill="outline"
+            color="dark"
+            (click)="editOn('health')"
+            [disabled]="editDiet || editGoal"
+          >
+            Change
+          </ion-button>
+          <ion-label>Health:</ion-label>
+          <ion-item lines="none" *ngFor="let health of user.health"
+            >{{getHealth(health)}}</ion-item
+          >
+        </div>
+
+        <div *ngIf="editHealth" class="objectives-show">
+          <ion-list>
             <ion-list-header>
-              <ion-label>Select new goal</ion-label>
+              <ion-label> Select new health labels </ion-label>
             </ion-list-header>
 
-            <ion-item>
-              <ion-label>Lose weight faster</ion-label>
-              <p>{{newDietCalories.extreme}} kcal</p>
-              <ion-radio slot="start" value="extreme_lose_weight"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>Lose weight</ion-label>
-              <p>{{newDietCalories.lose}} kcal</p>
-              <ion-radio slot="start" value="lose_weight"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>Maintain</ion-label>
-              <p>{{newDietCalories.maintain}} kcal</p>
-              <ion-radio slot="start" value="maintainance"></ion-radio>
-            </ion-item>
-
             <ion-item lines="none">
-              <ion-label>Gain weight</ion-label>
-              <p>{{newDietCalories.gain}} kcal</p>
-              <ion-radio slot="start" value="gain_weight"></ion-radio>
+              <ion-select
+                multiple="true"
+                cancelText="Cancel"
+                okText="Done"
+                [(ngModel)]="selectedHealth"
+              >
+                <ion-select-option value="empty">None</ion-select-option>
+                <ion-select-option value="alcohol_free"
+                  >Alcohol-free</ion-select-option
+                >
+                <ion-select-option value="celery_free"
+                  >Celery-free</ion-select-option
+                >
+                <ion-select-option value="crustacean_free"
+                  >Crustacean-free</ion-select-option
+                >
+                <ion-select-option value="dairy_free"
+                  >Dairy-free</ion-select-option
+                >
+                <ion-select-option value="egg_free">Egg-free</ion-select-option>
+                <ion-select-option value="fish_free"
+                  >Fish-free</ion-select-option
+                >
+                <ion-select-option value="gluten_free"
+                  >Gluten-free</ion-select-option
+                >
+                <ion-select-option value="low_sugar"
+                  >Low sugar</ion-select-option
+                >
+                <ion-select-option value="peanut_free"
+                  >Peanut-free</ion-select-option
+                >
+                <ion-select-option value="pork_free"
+                  >Pork-free</ion-select-option
+                >
+                <ion-select-option value="red_meat_free"
+                  >Red-meat-free</ion-select-option
+                >
+                <ion-select-option value="vegan">Vegan</ion-select-option>
+                <ion-select-option value="vegetarian"
+                  >Vegetarian</ion-select-option
+                >
+                <ion-select-option value="wheat_free"
+                  >Wheat-free</ion-select-option
+                >
+              </ion-select>
             </ion-item>
-          </ion-radio-group>
-        </ion-list>
+          </ion-list>
 
-        <ion-list>
-          <ion-radio-group [(ngModel)]="selectedDiet">
-            <ion-list-header>
-              <ion-label>Select new diet</ion-label>
-            </ion-list-header>
-
-            <ion-item>
-              <ion-label>None</ion-label>
-              <ion-radio slot="start" value="empty"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>Balanced</ion-label>
-              <ion-radio slot="start" value="balanced"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>High-fiber</ion-label>
-              <ion-radio slot="start" value="high_fiber"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>High-protein</ion-label>
-              <ion-radio slot="start" value="high_protein"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>Low-carb</ion-label>
-              <ion-radio slot="start" value="low_carb"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-              <ion-label>Low-fat</ion-label>
-              <ion-radio slot="start" value="low_fat"></ion-radio>
-            </ion-item>
-
-            <ion-item lines="none">
-              <ion-label>Low-sodium</ion-label>
-              <ion-radio slot="start" value="low_sodium"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list>
-        <ion-button class="objectives-saveBtn" (click)="editOff()" fill="outline" color="dark" >salveaza</ion-button>
+          <ion-button
+            class="objectives-saveBtn"
+            (click)="editOffHealth()"
+            fill="outline"
+            color="dark"
+          >
+            Save changes
+          </ion-button>
+        </div>
       </div>
     </ion-card-content>
   </ion-card>

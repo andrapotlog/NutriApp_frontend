@@ -29,8 +29,8 @@ export class ModalPage implements OnInit {
   ) {}
 
   @Input() openedFrom: string;
-
-  @Output() refresh: EventEmitter<boolean> = new EventEmitter();
+  @Input() id_meal: number;
+  @Input() date: string;
 
   ngOnInit(): void {
     this.foods = this.foodService.getFoods();
@@ -53,11 +53,15 @@ export class ModalPage implements OnInit {
 
   addItem(foodItem: FoodsModel, meal: string) {
     console.log(this.gramsInput);
-    this.foodService.addToDB(foodItem, this.gramsInput, meal);
-    this.refresh.emit(true);
+    this.foodService.addToDB(
+      foodItem,
+      this.gramsInput,
+      meal,
+      this.id_meal,
+      this.date
+    );
 
     this.modalContr.dismiss();
-    console.log(this.util.getCalendar());
   }
 
   closeModal() {

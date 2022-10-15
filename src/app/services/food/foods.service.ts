@@ -3,7 +3,7 @@ import { FoodsModel, MealDB, MealReport } from './foods.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { UtilsService } from '../utils/utils.service';
+import { UsersService } from '../user/users.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +21,9 @@ export class FoodsService {
 
   private foods: FoodsModel[] = [];
 
-  constructor(private http: HttpClient, private utilService: UtilsService) {
+  constructor(private http: HttpClient, private userService: UsersService) {
     this.getFoodsDatabase().subscribe((foods) => {
+      console.log(foods);
       this.foods = foods;
     });
   }
@@ -132,26 +133,33 @@ export class FoodsService {
     );
   }
 
-  getRecipeAPI(userSearch: string, meal: string) {
-    this.urlRecipe =
-      'https://api.edamam.com/api/recipes/v2?type=public' +
-      '&q=' +
-      userSearch +
-      '&app_id=' +
-      this.app_idRecipe +
-      '&app_key=' +
-      this.app_keyRecipe +
-      '&mealType=' +
-      meal +
-      '&random=true';
+  recipesToDB() {
+    const user = this.userService.getUser();
 
-    return this.http.get<any>(this.urlRecipe).pipe(
-      catchError((err) => {
-        console.log('Error caught in service');
-        console.error(err);
+    let healthString = '';
 
-        return throwError(err); //Rethrow it back to component
-      })
-    );
+    user.health.forEach((item) => {
+      healthString = healthString.concat('&health=' + item);
+      healthString = healthString.replace('_', '-');
+    });
+
+    console.log(healthString);
+
+    let dietString = '&diet=' + user.diet;
+    dietString = dietString.replace('_', '-');
+
+    console.log(dietString);
+
+    const options = {
+      params: {
+        uid: user.id_user,
+        diet: dietString === '&diet=empty' ? '' : dietString,
+        health: healthString === '&health=empty' ? '' : healthString,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/addRecipesFromAPI', options, {
+      responseType: 'text',
+    });
   }
 }

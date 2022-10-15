@@ -2,9 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FoodsService } from '../services/food/foods.service';
 import { FoodsModel } from '../services/food/foods.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
-import { UtilsService } from '../services/utils/utils.service';
 
 @Component({
   selector: 'app-modal',
@@ -16,16 +13,11 @@ export class ModalPage implements OnInit {
   searchField: string;
   data: any[];
 
-  item: FormGroup = new FormGroup({
-    grams: new FormControl('', [Validators.required]),
-  });
-
   private gramsInput: number;
 
   constructor(
     private modalContr: ModalController,
-    private foodService: FoodsService,
-    private util: UtilsService
+    private foodService: FoodsService
   ) {}
 
   @Input() openedFrom: string;

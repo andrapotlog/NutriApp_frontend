@@ -1,35 +1,62 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import {
   CaloriesDivision,
   Diet,
   Gender,
   Goal,
   Health,
+  HeightMeasurements,
   PhysicalActivity,
   UserModel,
+  WeightMeasurements,
 } from './user.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsersService {
+export class UsersService implements OnInit {
   private user: UserModel;
 
-  constructor(private http: HttpClient) {
-    this.getUserReq().subscribe((user) => {
-      this.user = { ...user[0], health: user[0].health.split(',') };
+  constructor(private http: HttpClient, private auth: Auth) {
+    auth.onAuthStateChanged(() => {
+      console.log('onAuthCh');
+      this.getUserReq().subscribe((user) => {
+        this.user = { ...user[0], health: user[0].health.split(',') };
+        console.log(this.user);
+      });
     });
+    if (JSON.parse(localStorage.getItem('user')!)) {
+      this.getUserReq().subscribe((user) => {
+        this.user = { ...user[0], health: user[0].health.split(',') };
+      });
+    }
+    console.log(this.user);
+    console.log('constr');
+  }
+
+  ngOnInit(): void {
+    if (JSON.parse(localStorage.getItem('user')!)) {
+      this.getUserReq().subscribe((user) => {
+        this.user = { ...user[0], health: user[0].health.split(',') };
+      });
+    }
+    console.log('onInit');
   }
 
   getUser() {
+    this.getUserReq().subscribe((user) => {
+      this.user = { ...user[0], health: user[0].health.split(',') };
+    });
     return { ...this.user };
   }
 
   //get
   getUserReq(): Observable<UserModel> {
     const user = JSON.parse(localStorage.getItem('user')!);
+    console.log(user === null);
     const options = {
       params: { uid: user.uid },
     };
@@ -95,6 +122,38 @@ export class UsersService {
     });
   }
 
+  modifyUser(user: {
+    first_name: string;
+    last_name: string;
+    birthdate: string;
+    gender: string;
+    physical_activity: string;
+  }) {
+    this.user = {
+      ...this.user,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      birthdate: new Date(user.birthdate),
+      gender: user.gender === 'f' ? Gender.female : Gender.male,
+      physical_activity: this.getPhysicalActivity(user.physical_activity),
+    };
+
+    const options = {
+      params: {
+        id_user: this.user.id_user,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        birthdate: user.birthdate,
+        gender: user.gender === 'f' ? 'female' : 'male',
+        physical_activity: user.physical_activity,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/modifyUser', options, {
+      responseType: 'text',
+    });
+  }
+
   //post
   updateUserGoal(goal: Goal, diet_calories: number) {
     const options = {
@@ -136,6 +195,45 @@ export class UsersService {
     return this.http.post('http://localhost:8000/updateUserHealth', options, {
       responseType: 'text',
     });
+  }
+
+  getWeights(): Observable<WeightMeasurements[]> {
+    const options = {
+      params: {
+        uid: this.user.id_user,
+      },
+    };
+
+    return this.http.get<WeightMeasurements[]>(
+      'http://localhost:8000/getWeights',
+      options
+    );
+  }
+
+  addWeight(weight: number) {
+    const options = {
+      params: {
+        uid: this.user.id_user,
+        weight: weight,
+      },
+    };
+
+    return this.http.post('http://localhost:8000/addWeight', options, {
+      responseType: 'text',
+    });
+  }
+
+  getHeights(): Observable<HeightMeasurements[]> {
+    const options = {
+      params: {
+        uid: this.user.id_user,
+      },
+    };
+
+    return this.http.get<HeightMeasurements[]>(
+      'http://localhost:8000/getHeights',
+      options
+    );
   }
 
   calculate_age(date: Date): number {

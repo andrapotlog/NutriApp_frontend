@@ -1,0 +1,61 @@
+<ion-content>
+  <ion-card class="login-header">
+    <ion-icon
+      button
+      class="objectives-closeBtn"
+      name="arrow-back-outline"
+      (click)="back()"
+    ></ion-icon
+    ><ion-img src="../../assets/design/header.png"></ion-img>
+  </ion-card>
+
+  <ion-card>
+    <div (click)="expandWeight = !expandWeight">
+      <ion-card-header>
+        <ion-card-title>Weight</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content
+        ><ion-label>{{weights[0].weight}} kg</ion-label>
+        <ion-label
+          >{{getDate(weights[0].timestamp)}}</ion-label
+        ></ion-card-content
+      >
+
+      <ion-card-content *ngIf="expandWeight"
+        ><ion-list>
+          <ion-item *ngFor="let weight of weights">
+            <ion-label>{{weight.weight}} kg</ion-label>
+            <ion-label>{{getDate(weight.timestamp)}}</ion-label>
+          </ion-item></ion-list
+        ></ion-card-content
+      >
+    </div>
+    <ion-item button>Add weight</ion-item>
+  </ion-card>
+
+  <ion-card>
+    <div (click)="expandHeight = !expandHeight">
+      <ion-card-header>
+        <ion-card-title>Height</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content
+        ><ion-label>{{heights[0].height}} cm</ion-label>
+        <ion-label
+          >{{getDate(heights[0].timestamp)}}</ion-label
+        ></ion-card-content
+      >
+
+      <ion-card-content *ngIf="expandHeight"
+        ><ion-list>
+          <ion-item *ngFor="let height of heights">
+            <ion-label>{{height.height}} cm</ion-label>
+            <ion-label>{{getDate(height.timestamp)}}</ion-label>
+          </ion-item></ion-list
+        ></ion-card-content
+      >
+    </div>
+    <ion-item button>Add weight</ion-item>
+  </ion-card>
+</ion-content>

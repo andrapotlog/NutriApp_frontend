@@ -23,7 +23,9 @@ export class Tab1Page implements OnInit {
   private dinnerDB: MealDB[] = [];
   private snacksDB: MealDB[] = [];
 
-  private date = '20-06-2022';
+  private today = new Date();
+
+  private date = '09.12.2022';
 
   constructor(
     private userService: UsersService,
@@ -38,31 +40,42 @@ export class Tab1Page implements OnInit {
     this.foods = this.foodServ.getFoods();
 
     this.updateMeals();
+    console.log(this.getDate(this.today));
+  }
+
+  getDate(date: Date) {
+    return new Date(date).toLocaleDateString();
+  }
+
+  getRound(x: number): number {
+    return Math.round(x);
   }
 
   updateMeals() {
-    this.utilsService.getEntryOfADay(this.date).subscribe((entry) => {
-      this.entry = entry[0];
+    this.utilsService
+      .getEntryOfADay(this.getDate(this.today))
+      .subscribe((entry) => {
+        this.entry = entry[0];
 
-      this.foodServ
-        .getMealEntry(entry[0].breaskfast_entry)
-        .subscribe((meal) => {
-          console.log(meal);
-          this.breakfastDB = meal;
+        this.foodServ
+          .getMealEntry(entry[0].breaskfast_entry)
+          .subscribe((meal) => {
+            console.log(meal);
+            this.breakfastDB = meal;
+          });
+
+        this.foodServ.getMealEntry(entry[0].lunch_entry).subscribe((meal) => {
+          this.lunchDB = meal;
         });
 
-      this.foodServ.getMealEntry(entry[0].lunch_entry).subscribe((meal) => {
-        this.lunchDB = meal;
-      });
+        this.foodServ.getMealEntry(entry[0].dinner_entry).subscribe((meal) => {
+          this.dinnerDB = meal;
+        });
 
-      this.foodServ.getMealEntry(entry[0].dinner_entry).subscribe((meal) => {
-        this.dinnerDB = meal;
+        this.foodServ.getMealEntry(entry[0].snack_entry).subscribe((meal) => {
+          this.snacksDB = meal;
+        });
       });
-
-      this.foodServ.getMealEntry(entry[0].snack_entry).subscribe((meal) => {
-        this.snacksDB = meal;
-      });
-    });
   }
 
   async openModal(data: string) {
@@ -88,7 +101,7 @@ export class Tab1Page implements OnInit {
       componentProps: {
         openedFrom: data,
         id_meal: id_meal,
-        date: this.date,
+        date: this.getDate(this.today),
       },
     });
 

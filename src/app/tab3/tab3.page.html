@@ -1,21 +1,10 @@
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Profil</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div class="userProfile-content">
-    <div class="overlay">
-      <ion-avatar>
-        <img src="../../assets/standard_profile.png" />
-      </ion-avatar>
-    </div>
-  </div>
+<ion-content>
+  <ion-card class="login-header"><ion-img src="../../assets/design/header-small.png"></ion-img>
+  </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Profil personal</ion-card-subtitle>
+      <ion-card-subtitle>Personal profile</ion-card-subtitle>
       <ion-card-title>{{user.first_name}} {{user.last_name}}</ion-card-title>
     </ion-card-header>
 
@@ -24,11 +13,11 @@
         <ion-item>
           <div>
             <div class="userProfile-userDetails">
-              <p><b>BMR</b> - Rata Metabolica Bazala</p>
+              <p><b>BMR</b> - Basal Metabolic Rate </p>
               <p class="userProfile-userDetails-title">{{user.bmr}} kcal</p>
             </div>
             <div>
-              <p><b>TDEE</b> - Necesar caloric mentinere</p>
+              <p><b>TDEE</b> - Total Daily Energy Expediture</p>
               <p class="userProfile-userDetails-title">{{user.calories}} kcal</p>
             </div>
           </div>
@@ -38,23 +27,22 @@
 
     <ion-card-content class="userProfile-optionButtons">
       <ion-list lines="none">
-        <ion-item button >Masuratori</ion-item>
-        <ion-item button href="tabs/tab3/objectives">Obiectivele mele</ion-item>
-        <ion-item button href="tabs/tab3/meals-administration">Administrare mese</ion-item>
+        <ion-item button href="tabs/tab3/measurements">Measurements</ion-item>
+        <ion-item button href="tabs/tab3/objectives">My objectives</ion-item>
+<!--        <ion-item button href="tabs/tab3/meals-administration">Meal planning</ion-item>-->
       </ion-list>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Optiuni cont</ion-card-subtitle>
+      <ion-card-subtitle>Account Options</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
       <ion-list lines="none">
-        <ion-item button>Date personale</ion-item>
-        <ion-item button>Resertare parola</ion-item>
-        <ion-item button >Stergere cont</ion-item>
+        <ion-item button href="tabs/tab3/personal-data">Personal data</ion-item>
+        <ion-item button >Delete account</ion-item>
         <ion-item button (click)="logout()">Logout</ion-item>
       </ion-list>
     </ion-card-content>

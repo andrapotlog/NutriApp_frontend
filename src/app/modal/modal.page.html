@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title *ngIf="openedFrom==='breakfast'">Mic Dejun</ion-title>
-    <ion-title *ngIf="openedFrom==='lunch'">Pranz</ion-title>
-    <ion-title *ngIf="openedFrom==='dinner'">Cina</ion-title>
-    <ion-title *ngIf="openedFrom==='snacks'">Gustare</ion-title>
+    <ion-title *ngIf="openedFrom==='breakfast'">Breakfast</ion-title>
+    <ion-title *ngIf="openedFrom==='lunch'">Lunch</ion-title>
+    <ion-title *ngIf="openedFrom==='dinner'">Dinner</ion-title>
+    <ion-title *ngIf="openedFrom==='snacks'">Snacks</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">Close</ion-button>
     </ion-buttons>
@@ -50,6 +50,7 @@
           ></ion-item>
           <ion-item
             button
+            class="button"
             (click)="addItem({id_food: food.food.foodId,
                                       name: food.food.label,
                                       category: food.food.category,

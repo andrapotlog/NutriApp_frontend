@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { filter, map, take } from 'rxjs/operators';
 
@@ -14,8 +14,12 @@ export class AutoLoginGuard implements CanLoad {
   ) {}
 
   canLoad(): Observable<boolean> {
-    console.log(this.authService.isAuthenticated);
-    return this.authService.isAuthenticated.pipe(
+    console.log(JSON.parse(localStorage.getItem('user')!) === null);
+    if (JSON.parse(localStorage.getItem('user')!) !== null) {
+      this.router.navigateByUrl('/tabs', { replaceUrl: true });
+    }
+    return of(true);
+    /*return this.authService.isAuthenticated.pipe(
       filter((val) => val !== null), // Filter out initial Behaviour subject value
       map((isAuthenticated) => {
         if (isAuthenticated) {
@@ -27,6 +31,6 @@ export class AutoLoginGuard implements CanLoad {
           return true;
         }
       })
-    );
+    );*/
   }
 }

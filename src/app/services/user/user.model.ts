@@ -25,6 +25,16 @@ export interface CaloriesDivision {
   snacks: number;
 }
 
+export interface WeightMeasurements {
+  weight: number;
+  timestamp: Date;
+}
+
+export interface HeightMeasurements {
+  height: number;
+  timestamp: Date;
+}
+
 export enum Gender {
   male = 'male',
   female = 'female',
@@ -58,7 +68,7 @@ export enum Diet {
 export enum Health {
   empty = 'empty',
   alcohol_free = 'alcohol_free',
-  celery_free = 'celery_free',
+  celery_free = 'celery-free',
   crustacean_free = 'crustacean_free',
   dairy_free = 'dairy_free',
   egg_free = 'egg_free',

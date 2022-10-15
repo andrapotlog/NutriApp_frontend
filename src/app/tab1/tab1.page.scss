@@ -1,0 +1,41 @@
+.login-headerTitle {
+  padding-left: 15%;
+}
+
+.login-header {
+  margin: 0 0 0 0;
+  box-shadow: none;
+}
+
+ion-content {
+  --ion-background-color: #f1e9e4;
+  padding: 0 10%;
+}
+
+.tab1-total {
+  margin-top: 0;
+}
+
+.tab1-noFood {
+  padding-left: 5%;
+  padding-bottom: 5%;
+}
+
+.food-label {
+  font-size: 18px;
+  padding-bottom: 2%;
+  //font-weight: normal;
+}
+
+.food-portion-calories {
+  display: flex;
+}
+
+.food-grams {
+  padding-right: 10%;
+}
+
+ion-button{
+  --background: #5A5387;
+  --background-activated: #534366;
+}

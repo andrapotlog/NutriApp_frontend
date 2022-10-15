@@ -1,4 +1,15 @@
+.login-headerTitle {
+  padding-left: 15%;
+}
+
+.login-header {
+  margin: 0 0 10% 0;
+  box-shadow: none;
+}
+
 ion-content {
+  --ion-background-color: #f1e9e4;
+  padding: 0 10%;
 }
 
 ion-header {

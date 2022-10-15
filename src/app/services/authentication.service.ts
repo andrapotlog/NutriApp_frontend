@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import {
@@ -80,6 +80,7 @@ export class AuthenticationService {
       this.isAuthenticated.next(true);
       return user;
     } catch (e) {
+      console.log(e);
       this.isAuthenticated.next(false);
       return null;
     }

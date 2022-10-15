@@ -1,0 +1,23 @@
+.login-headerTitle {
+  padding-left: 15%;
+}
+
+.login-header {
+  margin: 0 0 10% 0;
+  box-shadow: none;
+  position:relative;
+}
+
+.objectives-closeBtn {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  color: black;
+  width: 30px;
+  height: 30px;
+}
+
+ion-content {
+  --ion-background-color: #f1e9e4;
+  padding: 0 10%;
+}

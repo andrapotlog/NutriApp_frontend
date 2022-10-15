@@ -1,108 +1,111 @@
 <ion-content>
 
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Jurnal</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-card>
+  <ion-card class="login-header"><ion-img src="../../assets/design/header-small.png"></ion-img></ion-card>
+  <ion-card class="tab1-total">
     <ion-card-header>
       <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
-      <ion-card-title>Total</ion-card-title>
+      <ion-card-title>Overview</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       <ion-label>
-        <p>Calorii ramase: {{user.diet_calories - totalPerDay().total}}</p>
-        <p>Proteine: {{totalPerDay().proteins}}</p>
-        <p>Carbo: {{totalPerDay().carbs}}</p>
-        <p>Grasimi: {{totalPerDay().fats}}</p>
+        <p>Calories left: {{user.diet_calories - totalPerDay().total}} kCal</p>
+        <p>Proteins: {{totalPerDay().proteins}} grams</p>
+        <p>Carbs: {{totalPerDay().carbs}} grams</p>
+        <p>Fats: {{totalPerDay().fats}} grams</p>
       </ion-label>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Mic Dejun</ion-card-title>
+      <ion-card-title>Breakfast</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <div *ngIf="emptyDB(breakfastDB)">Niciun aliment consumat</div>
+      <div *ngIf="emptyDB(breakfastDB)" class="tab1-noFood">No food consumed</div>
 
       <ion-list>
-        <ion-item *ngFor="let item of breakfastDB">
-          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+        <ion-item lines="none" *ngFor="let item of breakfastDB">
+          <ion-label>
+            <p class="food-label">{{foodServ.getFoodByID(item.id_food).name}}</p>
+            <div class="food-portion-calories">
+            <p class="food-grams">{{item.portion}} grams</p>
+            <p>{{foodServ.getFoodByID(item.id_food).energ_kcal * item.portion / 100}} kcal</p></div>
+          </ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="openModal('breakfast')">Adauga alimente</ion-button>
+      <ion-button (click)="openModal('breakfast')">Add foods</ion-button>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Pranz</ion-card-title>
+      <ion-card-title>Lunch</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <div *ngIf="emptyDB(lunchDB)">Niciun aliment consumat</div>
+      <div *ngIf="emptyDB(lunchDB)" class="tab1-noFood">No food consumed</div>
 
       <ion-list>
-        <ion-item *ngFor="let item of lunchDB">
-          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+        <ion-item lines="none" *ngFor="let item of lunchDB">
+          <ion-label>
+            <p class="food-label">{{foodServ.getFoodByID(item.id_food).name}}</p>
+            <div class="food-portion-calories">
+              <p class="food-grams">{{item.portion}} grams</p>
+              <p>{{foodServ.getFoodByID(item.id_food).energ_kcal * item.portion / 100}} kcal</p></div>
+          </ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="openModal('lunch')">Adauga alimente</ion-button>
+      <ion-button (click)="openModal('lunch')">Add foods</ion-button>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Cina</ion-card-title>
+      <ion-card-title>Dinner</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <div *ngIf="emptyDB(dinnerDB)">Niciun aliment consumat</div>
+      <div *ngIf="emptyDB(dinnerDB)" class="tab1-noFood">No food consumed</div>
 
       <ion-list>
-        <ion-item *ngFor="let item of dinnerDB">
-          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+        <ion-item lines="none" *ngFor="let item of dinnerDB">
+          <ion-label>
+            <p class="food-label">{{foodServ.getFoodByID(item.id_food).name}}</p>
+            <div class="food-portion-calories">
+              <p class="food-grams">{{item.portion}} grams</p>
+              <p>{{getRound(foodServ.getFoodByID(item.id_food).energ_kcal * item.portion / 100)}} kcal</p></div>
+          </ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="openModal('dinner')">Adauga alimente</ion-button>
+      <ion-button (click)="openModal('dinner')">Add foods</ion-button>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Gustare</ion-card-title>
+      <ion-card-title>Snacks</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <div *ngIf="emptyDB(snacksDB)">Niciun aliment consumat</div>
+      <div *ngIf="emptyDB(snacksDB)" class="tab1-noFood">No food consumed</div>
 
-      <ion-list>
-        <ion-item *ngFor="let item of snacksDB">
-          <ion-label>{{foodServ.getFoodByID(item.id_food).name}}</ion-label>
+      <ion-list >
+        <ion-item lines="none" *ngFor="let item of snacksDB">
+          <ion-label>
+            <p class="food-label">{{foodServ.getFoodByID(item.id_food).name}}</p>
+            <div class="food-portion-calories">
+              <p class="food-grams">{{item.portion}} grams</p>
+              <p>{{foodServ.getFoodByID(item.id_food).energ_kcal * item.portion / 100}} kcal</p></div>
+          </ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="openModal('snacks')">Adauga alimente</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <!--<ion-card-subtitle>Profil personal</ion-card-subtitle>-->
-      <ion-card-title>Exercitii</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <div>Niciun exercitiu adaugat</div>
-
-      <ion-button>Adauga exercitii</ion-button>
+      <ion-button (click)="openModal('snacks')">Add food</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -15,11 +15,15 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'meals-administration',
+    path: 'measurements',
     loadChildren: () =>
-      import('./meals-administration/meals-administration.module').then(
-        (m) => m.MealsAdministrationPageModule
+      import('./measurements/measurements.module').then(
+        (m) => m.MeasurementsPageModule
       ),
+  },
+  {
+    path: 'personal-data',
+    loadChildren: () => import('./personal-data/personal-data.module').then( m => m.PersonalDataPageModule)
   },
 ];
 
